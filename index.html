@@ -448,9 +448,29 @@
       </div>
     </section>
 
-    <footer style="text-align: center; padding: 8px 0 4px; font-size: 11.5px; color: var(--muted);">
-      © <span id="copyrightYear">2026</span> Rechnungen CH · Alle Rechte vorbehalten.
+    <footer style="text-align: center; padding: 10px 0 6px; font-size: 11.5px; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 6px;">
+      <div>© <span id="copyrightYear">2026</span> Rechnungen CH · Alle Rechte vorbehalten.</div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button id="openLegalBtn" type="button" style="background: none; border: none; color: var(--muted); font-size: 11.5px; text-decoration: underline; cursor: pointer; padding: 0;">
+          Impressum / Rechtliches
+        </button>
+        <span>·</span>
+        <button id="openPrivacyBtn" type="button" style="background: none; border: none; color: var(--muted); font-size: 11.5px; text-decoration: underline; cursor: pointer; padding: 0;">
+          Datenschutz
+        </button>
+      </div>
     </footer>
+
+    <!-- Legal & Privacy Modal -->
+    <div id="legalModal" class="modal hidden">
+      <div class="card" style="max-width: 560px; width: 100%; max-height: 85vh; overflow-y: auto; text-align: left;">
+        <div class="header" style="margin-bottom: 12px;">
+          <strong id="legalModalTitle" style="font-size: 16px;">Rechtliches</strong>
+          <button id="closeLegalBtn" type="button" class="btn" style="padding: 5px 10px; font-size: 12px;">Schliessen ✕</button>
+        </div>
+        <div id="legalModalBody" style="font-size: 13px; color: var(--fg); line-height: 1.6; display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1002,6 +1022,35 @@
 
     document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('imageModal').classList.add('hidden'));
     document.getElementById('imageModal').addEventListener('click', (e) => { if (e.target.id === 'imageModal') e.target.classList.add('hidden'); });
+
+    // --- Legal & Privacy Modals (Schweiz / nDSG) ---
+    const legalModal = document.getElementById('legalModal');
+    const legalTitle = document.getElementById('legalModalTitle');
+    const legalBody = document.getElementById('legalModalBody');
+
+    document.getElementById('openLegalBtn').addEventListener('click', () => {
+      legalTitle.textContent = 'Impressum / Rechtliches';
+      legalBody.innerHTML = `
+        <p style="margin:0;"><strong>Rechnungen CH</strong> ist eine lokale Web-App (PWA) zur persönlichen Verwaltung von Rechnungen in der Schweiz.</p>
+        <p style="margin:0;"><strong>Urheberrecht (Copyright):</strong> © 2026 Rechnungen CH. Alle Rechte vorbehalten. Inhalte, Design und Quellcode dieser Anwendung sind urheberrechtlich geschützt.</p>
+        <p style="margin:0;"><strong>Haftungsausschluss:</strong> Die Nutzung erfolgt auf eigene Verantwortung. Für die Richtigkeit automatisch erkannter Daten aus QR-Codes oder PDF-Dateien sowie für die fristgerechte Begleichung von Rechnungen wird keine Haftung übernommen. Bitte überprüfe alle Angaben vor der Zahlung.</p>
+      `;
+      legalModal.classList.remove('hidden');
+    });
+
+    document.getElementById('openPrivacyBtn').addEventListener('click', () => {
+      legalTitle.textContent = 'Datenschutzerklärung (nDSG)';
+      legalBody.innerHTML = `
+        <p style="margin:0;">Der Schutz deiner Privatsphäre gemäss dem Schweizer Datenschutzgesetz (<strong>nDSG</strong>) hat oberste Priorität.</p>
+        <p style="margin:0;"><strong>100 % lokale Verarbeitung:</strong> Alle von dir eingegebenen Rechnungen, Beträge, Zahlungsfristen sowie hochgeladenen Fotos und PDF-Dateien werden ausschliesslich lokal auf deinem Gerät verarbeitet und im Browser (<code>localStorage</code>) gespeichert.</p>
+        <p style="margin:0;"><strong>Keine Server-Übertragung &amp; kein Tracking:</strong> Es werden keinerlei persönliche Daten, Rechnungen oder Bilder an externe Server übertragen. Diese App verwendet keine Analyse-Tools, keine Werbe-Tracker und keine Cookies von Drittanbietern.</p>
+        <p style="margin:0;"><strong>Daten löschen:</strong> Du kannst einzelne Einträge jederzeit über <em>Entfernen</em> oder alle Daten über <em>Tabelle leeren</em> bzw. durch Löschen der Browserdaten vollständig entfernen.</p>
+      `;
+      legalModal.classList.remove('hidden');
+    });
+
+    document.getElementById('closeLegalBtn').addEventListener('click', () => legalModal.classList.add('hidden'));
+    legalModal.addEventListener('click', (e) => { if (e.target.id === 'legalModal') legalModal.classList.add('hidden'); });
 
     document.getElementById('dueDate').value = formatDateISO(0);
     loadInvoices();
