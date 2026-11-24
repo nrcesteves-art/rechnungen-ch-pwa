@@ -488,7 +488,7 @@
     });
 
     // --- Invoice State ---
-    const STORAGE_KEY = 'facturas_suiza_v1';
+    const STORAGE_KEY = 'rechnungen_ch_v2';
     let invoices = [];
     let currentFilter = 'all';
     let photoQueue = [];
@@ -500,21 +500,12 @@
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
-    function getDefaultInvoices() {
-      return [
-        { id: crypto.randomUUID(), institution: 'CSS Versicherung (Krankenkasse)', dueDate: formatDateISO(14), amount: 428.50, paid: false },
-        { id: crypto.randomUUID(), institution: 'Swisscom (Internet & Mobile)', dueDate: formatDateISO(3), amount: 89.90, paid: false },
-        { id: crypto.randomUUID(), institution: 'Serafe AG', dueDate: formatDateISO(-2), amount: 335.00, paid: false }
-      ];
-    }
-
     function loadInvoices() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        invoices = saved ? JSON.parse(saved) : getDefaultInvoices();
-        if (!saved) saveInvoices();
+        invoices = saved ? JSON.parse(saved) : [];
       } catch {
-        invoices = getDefaultInvoices();
+        invoices = [];
       }
     }
 
