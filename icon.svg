@@ -1,5 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#dc2626"/>
-  <rect x="216" y="106" width="80" height="300" rx="14" fill="#ffffff"/>
-  <rect x="106" y="216" width="300" height="80" rx="14" fill="#ffffff"/>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff3b5c"/>
+      <stop offset="50%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#9f1239"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="docGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <filter id="drop" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#4c0519" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+  <!-- Rounded Squircle Base -->
+  <rect width="512" height="512" rx="120" fill="url(#bgGrad)"/>
+  <!-- Glossy Top Highlight -->
+  <rect x="16" y="16" width="480" height="240" rx="106" fill="url(#shine)"/>
+  <!-- Stylized Invoice Card -->
+  <g filter="url(#drop)">
+    <rect x="122" y="92" width="244" height="316" rx="34" fill="url(#docGrad)"/>
+    <!-- Swiss Cross Accent on Invoice -->
+    <rect x="198" y="138" width="92" height="92" rx="22" fill="#e11d48"/>
+    <rect x="234" y="156" width="20" height="56" rx="5" fill="#ffffff"/>
+    <rect x="216" y="174" width="56" height="20" rx="5" fill="#ffffff"/>
+    <!-- Minimal Invoice Lines -->
+    <rect x="162" y="264" width="164" height="18" rx="9" fill="#cbd5e1"/>
+    <rect x="162" y="302" width="118" height="18" rx="9" fill="#e2e8f0"/>
+    <rect x="162" y="340" width="84" height="18" rx="9" fill="#e2e8f0"/>
+  </g>
+  <!-- Floating 3D Emerald Paid Badge -->
+  <g filter="url(#drop)">
+    <circle cx="366" cy="364" r="64" fill="#10b981" stroke="#ffffff" stroke-width="10"/>
+    <path d="M338 364 L357 383 L396 344" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg>
