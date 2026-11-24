@@ -93,35 +93,50 @@
       background-color: var(--bg);
       background-image:
         var(--bg-glow),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 420' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='m1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23e11d48' stop-opacity='0.11'/%3E%3Cstop offset='100%25' stop-color='%23e11d48' stop-opacity='0.01'/%3E%3C/linearGradient%3E%3ClinearGradient id='m2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8' stop-opacity='0.12'/%3E%3Cstop offset='100%25' stop-color='%230f172a' stop-opacity='0.01'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23m2)' d='M0,310 L180,175 L340,255 L560,115 L770,235 L980,130 L1210,245 L1440,150 L1440,420 L0,420 Z'/%3E%3Cpath fill='url(%23m1)' d='M0,360 L230,230 L430,305 L680,165 L910,285 L1140,195 L1440,290 L1440,420 L0,420 Z'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 420' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='m1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23e11d48' stop-opacity='0.18'/%3E%3Cstop offset='100%25' stop-color='%23e11d48' stop-opacity='0.02'/%3E%3C/linearGradient%3E%3ClinearGradient id='m2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8' stop-opacity='0.18'/%3E%3Cstop offset='100%25' stop-color='%230f172a' stop-opacity='0.02'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23m2)' d='M0,310 L180,165 L340,250 L560,105 L770,230 L980,120 L1210,240 L1440,145 L1440,420 L0,420 Z'/%3E%3Cpath fill='url(%23m1)' d='M0,360 L230,225 L430,300 L680,155 L910,280 L1140,190 L1440,285 L1440,420 L0,420 Z'/%3E%3C/svg%3E");
       background-repeat: no-repeat, no-repeat;
       background-position: center top, center bottom;
       background-size: cover, 100% 340px;
       background-attachment: fixed, fixed;
       color: var(--fg);
       line-height: 1.5;
-      padding: 18px 14px calc(32px + env(safe-area-inset-bottom));
+      padding: 16px 12px calc(32px + env(safe-area-inset-bottom));
       -webkit-font-smoothing: antialiased;
     }
 
-    .container { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-    .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
+    .container { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+    .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
     .ch-badge {
-      width: 40px; height: 40px; border-radius: 12px;
+      width: 38px; height: 38px; border-radius: 12px;
       background: linear-gradient(135deg, #ef4444, #be123c);
       color: #fff; box-shadow: 0 6px 16px -4px rgba(225, 29, 72, 0.45);
       display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px;
       letter-spacing: -0.02em;
     }
-    h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.025em; }
-    .subtitle { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+    h1 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.025em; }
+    .subtitle { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
     .btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+    /* 3 upload buttons always on 1 single horizontal line */
+    .upload-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 14px;
+    }
+    .upload-grid .btn {
+      padding: 9px 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      width: 100%;
+    }
 
     button, .btn-label, select, input { font-family: inherit; }
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      padding: 8px 14px; font-size: 13px; font-weight: 600; border-radius: 999px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      padding: 8px 13px; font-size: 12.5px; font-weight: 600; border-radius: 999px;
       border: 1px solid var(--border); background: var(--card); color: var(--fg);
       cursor: pointer; transition: transform .14s cubic-bezier(.22,1,.36,1), background .15s, border-color .15s, box-shadow .15s;
       text-decoration: none; backdrop-filter: blur(8px);
@@ -146,8 +161,13 @@
     .btn-danger:hover { background: var(--error); color: #fff; border-color: var(--error); box-shadow: 0 6px 14px -4px rgba(220, 38, 38, 0.45); }
     .btn-muted { color: var(--muted); }
 
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; perspective: 1000px; }
-    @media (max-width: 640px) { .grid-3 { grid-template-columns: 1fr; } }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; perspective: 1000px; }
+    @media (max-width: 640px) {
+      .grid-3 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .grid-3 .kpi-card:first-child { grid-column: 1 / -1; }
+      .kpi-val { font-size: 22px; }
+      .card { padding: 15px; }
+    }
 
     .card {
       background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
@@ -330,18 +350,18 @@
 
     <!-- Add Invoice Card -->
     <section class="card">
-      <div class="header" style="margin-bottom: 12px;">
+      <div style="margin-bottom: 10px;">
         <strong style="font-size: 14px;">Neue Rechnung hinzufügen</strong>
-        <div class="btn-row">
-          <label for="cameraInput" class="btn btn-label">📷 Foto aufnehmen</label>
-          <input id="cameraInput" type="file" accept="image/*" capture="environment" class="hidden" />
+      </div>
+      <div class="upload-grid">
+        <label for="cameraInput" class="btn btn-label">📷 Foto</label>
+        <input id="cameraInput" type="file" accept="image/*" capture="environment" class="hidden" />
 
-          <label for="galleryInput" class="btn btn-label">🖼️ Foto(s) aus Galerie</label>
-          <input id="galleryInput" type="file" accept="image/*" multiple class="hidden" />
+        <label for="galleryInput" class="btn btn-label">🖼️ Galerie</label>
+        <input id="galleryInput" type="file" accept="image/*" multiple class="hidden" />
 
-          <label for="pdfInput" class="btn btn-label">📄 PDF hochladen</label>
-          <input id="pdfInput" type="file" accept="application/pdf,.pdf" multiple class="hidden" />
-        </div>
+        <label for="pdfInput" class="btn btn-label">📄 PDF</label>
+        <input id="pdfInput" type="file" accept="application/pdf,.pdf" multiple class="hidden" />
       </div>
 
       <form id="invoiceForm" class="form-grid">

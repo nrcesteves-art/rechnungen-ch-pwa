@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rechnungen-ch-v2';
+const CACHE_NAME = 'rechnungen-ch-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -22,17 +22,18 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Network-first so updates always appear immediately, with offline cache fallback
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).then((response) => {
+    fetch(event.request)
+      .then((response) => {
         if (response && response.status === 200 && response.type === 'basic') {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
         return response;
-      }).catch(() => cached);
-    })
+      })
+      .catch(() => caches.match(event.request))
   );
 });
