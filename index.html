@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Rechnungen CH — Rechnungsübersicht Schweiz</title>
+  <title>Rechnungen CH — Jede Rechnung im Griff</title>
   <meta name="description" content="Verwalte deine Rechnungen in der Schweiz (CHF) mit Zahlungsfrist-Warnungen, Foto- & PDF-Erkennung und automatischer Gesamtsumme." />
-  <meta name="theme-color" content="#dc2626" />
+  <meta name="theme-color" content="#e11d48" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Rechnungen CH" />
@@ -14,75 +14,74 @@
   <link rel="apple-touch-icon" href="./icon.svg" />
   <style>
     :root {
-      --bg: #f4f6f9;
-      --bg-glow: radial-gradient(circle at 15% 0%, rgba(220, 38, 38, 0.08), transparent 45%),
-                 radial-gradient(circle at 85% 0%, rgba(15, 23, 42, 0.05), transparent 45%);
+      --bg: #f1f5f9;
+      --bg-glow: radial-gradient(circle at 12% 0%, rgba(225, 29, 72, 0.10), transparent 42%),
+                 radial-gradient(circle at 88% 10%, rgba(56, 189, 248, 0.10), transparent 42%);
       --card: rgba(255, 255, 255, 0.92);
       --content: #f8fafc;
       --fg: #0f172a;
       --muted: #64748b;
       --border: rgba(15, 23, 42, 0.08);
       --primary: #e11d48;
-      --primary-hover: #be123c;
       --primary-fg: #ffffff;
-      --secondary: #f1f5f9;
+      --secondary: #e2e8f0;
       --warning: #d97706;
-      --warning-bg: rgba(245, 158, 11, 0.12);
+      --warning-bg: rgba(245, 158, 11, 0.13);
       --warning-border: rgba(245, 158, 11, 0.35);
       --error: #dc2626;
-      --error-bg: rgba(239, 68, 68, 0.10);
+      --error-bg: rgba(239, 68, 68, 0.11);
       --error-border: rgba(239, 68, 68, 0.32);
       --success: #059669;
-      --success-bg: rgba(16, 185, 129, 0.12);
+      --success-bg: rgba(16, 185, 129, 0.13);
       --success-border: rgba(16, 185, 129, 0.35);
-      --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -6px rgba(15, 23, 42, 0.06);
-      --radius: 16px;
+      --shadow: 0 2px 6px rgba(15, 23, 42, 0.04), 0 12px 28px -8px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
     }
 
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
-        --bg: #090d16;
-        --bg-glow: radial-gradient(circle at 15% 0%, rgba(225, 29, 72, 0.14), transparent 45%),
-                   radial-gradient(circle at 85% 0%, rgba(56, 189, 248, 0.08), transparent 45%);
-        --card: rgba(17, 24, 39, 0.86);
-        --content: rgba(30, 41, 59, 0.55);
+        --bg: #080c14;
+        --bg-glow: radial-gradient(circle at 12% 0%, rgba(225, 29, 72, 0.16), transparent 44%),
+                   radial-gradient(circle at 88% 10%, rgba(56, 189, 248, 0.10), transparent 44%);
+        --card: rgba(17, 24, 39, 0.88);
+        --content: rgba(30, 41, 59, 0.6);
         --fg: #f8fafc;
         --muted: #94a3b8;
         --border: rgba(255, 255, 255, 0.08);
-        --secondary: rgba(255, 255, 255, 0.06);
+        --secondary: rgba(255, 255, 255, 0.08);
         --warning: #fbbf24;
-        --warning-bg: rgba(251, 191, 36, 0.13);
+        --warning-bg: rgba(251, 191, 36, 0.14);
         --warning-border: rgba(251, 191, 36, 0.35);
         --error: #f87171;
-        --error-bg: rgba(248, 113, 113, 0.13);
+        --error-bg: rgba(248, 113, 113, 0.14);
         --error-border: rgba(248, 113, 113, 0.35);
         --success: #34d399;
-        --success-bg: rgba(52, 211, 153, 0.13);
+        --success-bg: rgba(52, 211, 153, 0.14);
         --success-border: rgba(52, 211, 153, 0.35);
-        --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+        --shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 14px 34px -8px rgba(0, 0, 0, 0.5);
       }
     }
 
     :root[data-theme="dark"] {
-      --bg: #090d16;
-      --bg-glow: radial-gradient(circle at 15% 0%, rgba(225, 29, 72, 0.14), transparent 45%),
-                 radial-gradient(circle at 85% 0%, rgba(56, 189, 248, 0.08), transparent 45%);
-      --card: rgba(17, 24, 39, 0.86);
-      --content: rgba(30, 41, 59, 0.55);
+      --bg: #080c14;
+      --bg-glow: radial-gradient(circle at 12% 0%, rgba(225, 29, 72, 0.16), transparent 44%),
+                 radial-gradient(circle at 88% 10%, rgba(56, 189, 248, 0.10), transparent 44%);
+      --card: rgba(17, 24, 39, 0.88);
+      --content: rgba(30, 41, 59, 0.6);
       --fg: #f8fafc;
       --muted: #94a3b8;
       --border: rgba(255, 255, 255, 0.08);
-      --secondary: rgba(255, 255, 255, 0.06);
+      --secondary: rgba(255, 255, 255, 0.08);
       --warning: #fbbf24;
-      --warning-bg: rgba(251, 191, 36, 0.13);
+      --warning-bg: rgba(251, 191, 36, 0.14);
       --warning-border: rgba(251, 191, 36, 0.35);
       --error: #f87171;
-      --error-bg: rgba(248, 113, 113, 0.13);
+      --error-bg: rgba(248, 113, 113, 0.14);
       --error-border: rgba(248, 113, 113, 0.35);
       --success: #34d399;
-      --success-bg: rgba(52, 211, 153, 0.13);
+      --success-bg: rgba(52, 211, 153, 0.14);
       --success-border: rgba(52, 211, 153, 0.35);
-      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 12px 32px -8px rgba(0, 0, 0, 0.45);
+      --shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 14px 34px -8px rgba(0, 0, 0, 0.5);
     }
 
     * { box-sizing: border-box; }
@@ -93,186 +92,219 @@
       background-color: var(--bg);
       background-image:
         var(--bg-glow),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 420' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='m1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23e11d48' stop-opacity='0.18'/%3E%3Cstop offset='100%25' stop-color='%23e11d48' stop-opacity='0.02'/%3E%3C/linearGradient%3E%3ClinearGradient id='m2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8' stop-opacity='0.18'/%3E%3Cstop offset='100%25' stop-color='%230f172a' stop-opacity='0.02'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23m2)' d='M0,310 L180,165 L340,250 L560,105 L770,230 L980,120 L1210,240 L1440,145 L1440,420 L0,420 Z'/%3E%3Cpath fill='url(%23m1)' d='M0,360 L230,225 L430,300 L680,155 L910,280 L1140,190 L1440,285 L1440,420 L0,420 Z'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 420' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='m1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23e11d48' stop-opacity='0.16'/%3E%3Cstop offset='100%25' stop-color='%23e11d48' stop-opacity='0.01'/%3E%3C/linearGradient%3E%3ClinearGradient id='m2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8' stop-opacity='0.16'/%3E%3Cstop offset='100%25' stop-color='%230f172a' stop-opacity='0.01'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23m2)' d='M0,310 L180,165 L340,250 L560,105 L770,230 L980,120 L1210,240 L1440,145 L1440,420 L0,420 Z'/%3E%3Cpath fill='url(%23m1)' d='M0,360 L230,225 L430,300 L680,155 L910,280 L1140,190 L1440,285 L1440,420 L0,420 Z'/%3E%3C/svg%3E");
       background-repeat: no-repeat, no-repeat;
       background-position: center top, center bottom;
       background-size: cover, 100% 340px;
       background-attachment: fixed, fixed;
       color: var(--fg);
-      line-height: 1.5;
-      padding: 16px 12px calc(32px + env(safe-area-inset-bottom));
+      line-height: 1.45;
+      padding: 14px 12px calc(32px + env(safe-area-inset-bottom));
       -webkit-font-smoothing: antialiased;
     }
 
-    .container { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-    .header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .ch-badge {
-      width: 38px; height: 38px; border-radius: 12px;
-      background: linear-gradient(135deg, #ef4444, #be123c);
-      color: #fff; box-shadow: 0 6px 16px -4px rgba(225, 29, 72, 0.45);
-      display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px;
-      letter-spacing: -0.02em;
-    }
-    h1 { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.025em; }
-    .subtitle { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
-    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .container { max-width: 920px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
 
-    /* 3 upload buttons always on 1 single horizontal line */
-    .upload-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      width: 100%;
-      margin-bottom: 14px;
+    /* Sleek Single-Line Top App Bar */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 4px 2px;
     }
-    .upload-grid .btn {
-      padding: 9px 6px;
-      font-size: 12px;
-      white-space: nowrap;
-      width: 100%;
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .brand-logo {
+      width: 42px; height: 42px; border-radius: 13px; flex-shrink: 0;
+      box-shadow: 0 8px 18px -4px rgba(225, 29, 72, 0.45);
     }
+    .brand-text { min-width: 0; }
+    h1 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.15; }
+    .tagline { margin: 2px 0 0; font-size: 11.5px; color: var(--muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .topbar-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; position: relative; }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 11px; border: 1px solid var(--border);
+      background: var(--card); color: var(--fg); display: inline-flex; align-items: center; justify-content: center;
+      font-size: 15px; cursor: pointer; backdrop-filter: blur(10px);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: transform .14s ease, background .15s;
+    }
+    .icon-btn:hover { background: var(--secondary); transform: translateY(-1px); }
+    .icon-btn:active { transform: translateY(1px); }
+    .icon-btn-exit { color: var(--error); border-color: var(--error-border); }
+    .icon-btn-exit:hover { background: var(--error); color: #fff; border-color: var(--error); }
+
+    /* Dropdown Menu */
+    .menu-dropdown {
+      position: absolute; top: 44px; right: 0; z-index: 60; min-width: 190px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 6px; box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.25);
+      backdrop-filter: blur(16px); display: flex; flex-direction: column; gap: 2px;
+    }
+    .menu-item {
+      width: 100%; text-align: left; padding: 9px 12px; border: none; background: transparent;
+      color: var(--fg); font-size: 13px; font-weight: 600; border-radius: 9px;
+      display: flex; align-items: center; gap: 8px; cursor: pointer;
+    }
+    .menu-item:hover { background: var(--secondary); }
+    .menu-item-primary { color: var(--primary); }
+
+    /* 3D Fintech Hero Balance Card */
+    .hero-card {
+      position: relative; overflow: hidden; border-radius: 22px; padding: 20px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #1e1b4b 0%, #31102f 48%, #be123c 100%);
+      box-shadow: 0 18px 38px -12px rgba(190, 18, 60, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      transform-style: preserve-3d; transition: transform .25s cubic-bezier(.22,1,.36,1);
+    }
+    .hero-card::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.18), transparent 48%),
+                  radial-gradient(circle at 10% 90%, rgba(56, 189, 248, 0.16), transparent 45%);
+    }
+    .hero-top { position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .hero-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.78; }
+    .hero-amount {
+      font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-top: 4px;
+      font-variant-numeric: tabular-nums; display: inline-block;
+      transition: transform .22s cubic-bezier(.34,1.56,.64,1);
+    }
+    .hero-amount.pop { transform: scale(1.06); }
+    .hero-pill {
+      padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 600;
+      background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px); white-space: nowrap;
+    }
+
+    /* Paid Progress Bar */
+    .progress-wrap { position: relative; margin-top: 14px; }
+    .progress-track {
+      height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%; border-radius: 999px;
+      background: linear-gradient(90deg, #34d399, #10b981);
+      transition: width .45s cubic-bezier(.22,1,.36,1);
+    }
+
+    .hero-stats {
+      position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;
+    }
+    .hero-stat {
+      padding: 11px 13px; border-radius: 14px;
+      background: rgba(255, 255, 255, 0.11); border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+    }
+    .hero-stat-label { font-size: 11px; font-weight: 600; opacity: 0.8; display: flex; align-items: center; gap: 6px; }
+    .hero-stat-val { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 3px; display: inline-block; transition: transform .2s; }
+    .hero-stat-val.pop { transform: scale(1.06); }
+    .hero-stat-sub { font-size: 11px; opacity: 0.72; }
+
+    /* Cards & Controls */
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px; box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(14px);
+    }
+    .section-title { font-size: 14px; font-weight: 700; margin: 0 0 12px; display: flex; align-items: center; justify-content: space-between; }
 
     button, .btn-label, select, input { font-family: inherit; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 5px;
-      padding: 8px 13px; font-size: 12.5px; font-weight: 600; border-radius: 999px;
+      padding: 8px 13px; font-size: 12.5px; font-weight: 600; border-radius: 12px;
       border: 1px solid var(--border); background: var(--card); color: var(--fg);
-      cursor: pointer; transition: transform .14s cubic-bezier(.22,1,.36,1), background .15s, border-color .15s, box-shadow .15s;
-      text-decoration: none; backdrop-filter: blur(8px);
-      box-shadow: 0 2px 0 rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      cursor: pointer; transition: transform .14s cubic-bezier(.22,1,.36,1), background .15s, box-shadow .15s;
+      text-decoration: none;
+      box-shadow: 0 2px 0 rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
-    .btn:hover { background: var(--secondary); transform: translateY(-2px); box-shadow: 0 6px 14px -4px rgba(15, 23, 42, 0.16), 0 2px 0 rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
-    .btn:active { transform: translateY(1px); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12); }
+    .btn:hover { background: var(--secondary); transform: translateY(-1px); }
+    .btn:active { transform: translateY(1px); }
     .btn-primary {
       background: linear-gradient(180deg, #f43f5e 0%, #e11d48 55%, #be123c 100%);
-      color: var(--primary-fg); border-color: rgba(255, 255, 255, 0.18);
-      box-shadow: 0 4px 0 #9f1239, 0 10px 20px -6px rgba(225, 29, 72, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      color: #fff; border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 4px 0 #9f1239, 0 10px 20px -6px rgba(225, 29, 72, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
-    .btn-primary:hover {
-      background: linear-gradient(180deg, #fb7185 0%, #e11d48 55%, #be123c 100%);
-      box-shadow: 0 5px 0 #9f1239, 0 14px 24px -6px rgba(225, 29, 72, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-    }
-    .btn-primary:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #9f1239, 0 4px 10px -2px rgba(225, 29, 72, 0.45);
-    }
-    .btn-danger { border-color: var(--error-border); color: var(--error); background: transparent; padding: 6px 12px; font-size: 12px; box-shadow: none; }
-    .btn-danger:hover { background: var(--error); color: #fff; border-color: var(--error); box-shadow: 0 6px 14px -4px rgba(220, 38, 38, 0.45); }
+    .btn-primary:hover { background: linear-gradient(180deg, #fb7185 0%, #e11d48 55%, #be123c 100%); }
+    .btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 #9f1239; }
+    .btn-danger { border-color: var(--error-border); color: var(--error); background: transparent; padding: 6px 10px; font-size: 12px; box-shadow: none; }
+    .btn-danger:hover { background: var(--error); color: #fff; border-color: var(--error); }
     .btn-muted { color: var(--muted); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; perspective: 1000px; }
-    @media (max-width: 640px) {
-      .grid-3 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .grid-3 .kpi-card:first-child { grid-column: 1 / -1; }
-      .kpi-val { font-size: 22px; }
-      .card { padding: 15px; }
+    /* 3 Upload Tiles on 1 Clean Line */
+    .upload-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px;
     }
+    .upload-tile {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+      padding: 10px 6px; border-radius: 13px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--fg); font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: transform .14s ease, border-color .15s, background .15s;
+    }
+    .upload-tile span.ico { font-size: 18px; line-height: 1; }
+    .upload-tile:hover { border-color: var(--primary); transform: translateY(-1px); }
 
-    .card {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(14px);
-      transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s ease;
-    }
-    .kpi-card {
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-    .kpi-card:hover {
-      box-shadow: 0 18px 36px -10px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-    }
-    .kpi-label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-    .kpi-val {
-      font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; margin-top: 6px;
-      display: inline-block; transition: transform .22s cubic-bezier(.34,1.56,.64,1);
-    }
-    .kpi-val.pop { transform: scale(1.07); }
-    .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-    .text-warning { color: var(--warning); }
-    .text-success { color: var(--success); }
-
-    @keyframes rowEnter {
-      0% { opacity: 0; transform: translateY(-10px) scale(0.985); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes rowExit {
-      0% { opacity: 1; transform: translateX(0) scale(1); }
-      100% { opacity: 0; transform: translateX(28px) scale(0.96); }
-    }
-    .row-enter { animation: rowEnter .34s cubic-bezier(.22,1,.36,1) both; }
-    .row-exit { animation: rowExit .24s ease-in forwards; pointer-events: none; }
-
-    .form-grid {
-      display: grid; grid-template-columns: 5fr 3fr 2fr 2fr; gap: 12px; align-items: end;
-    }
+    .form-grid { display: grid; grid-template-columns: 5fr 3fr 2fr 2fr; gap: 10px; align-items: end; }
     @media (max-width: 720px) { .form-grid { grid-template-columns: 1fr; } }
-
-    label.field-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+    label.field-label { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted); margin-bottom: 5px; }
     input[type="text"], input[type="date"], input[type="number"], select {
-      width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 10px;
-      border: 1px solid var(--border); background: var(--bg); color: var(--fg);
-      outline: none; transition: border-color .15s, box-shadow .15s;
+      width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 11px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--fg); outline: none;
+      transition: border-color .15s, box-shadow .15s;
     }
-    input:focus, select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.14);
-    }
+    input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.14); }
     .hidden { display: none !important; }
 
-    .filters-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: 12px; }
-    .legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--muted); font-weight: 500; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+    /* Segmented Filter Control */
+    .segmented {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+      padding: 4px; border-radius: 14px; background: var(--card); border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .seg-btn {
+      padding: 8px 4px; border: none; border-radius: 10px; background: transparent;
+      color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: background .18s, color .18s, box-shadow .18s; white-space: nowrap;
+    }
+    .seg-btn.active {
+      background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff;
+      box-shadow: 0 4px 10px -2px rgba(225, 29, 72, 0.4);
+    }
 
+    .legend { display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 11.5px; color: var(--muted); font-weight: 500; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+
+    /* Table & Zero-Scroll Mobile Card List */
     .table-wrap { overflow-x: hidden; }
-    table { width: 100%; border-collapse: collapse; text-align: left; table-layout: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
     th {
       padding: 11px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.05em; color: var(--muted); background: var(--content);
-      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.05em; color: var(--muted); background: var(--content); border-bottom: 1px solid var(--border);
     }
-    td { padding: 11px 12px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    tbody tr { transition: background .15s; }
-    tfoot td { background: var(--content); border-top: 1px solid var(--border); border-bottom: none; font-weight: 700; padding: 12px; }
+    td { padding: 12px; font-size: 13.5px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tfoot td { background: var(--content); border-top: 1px solid var(--border); border-bottom: none; font-weight: 700; padding: 12px 14px; }
     .text-right { text-align: right; }
     .text-center { text-align: center; }
     .tabular { font-variant-numeric: tabular-nums; }
 
-    /* Responsive mobile card layout — zero horizontal scroll */
     @media (max-width: 680px) {
       table, tbody, tfoot, tr, td { display: block; width: 100%; }
       thead { display: none; }
       tbody tr {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 6px 10px;
-        padding: 12px 14px;
-        border-bottom: 1px solid var(--border);
+        display: grid; grid-template-columns: 1fr auto; gap: 6px 10px;
+        padding: 13px 14px; border-bottom: 1px solid var(--border);
       }
-      tbody td {
-        padding: 0;
-        border: none;
-        text-align: left !important;
-      }
-      tbody td:nth-child(1) { grid-column: 1; grid-row: 1; font-size: 14px; }
+      tbody td { padding: 0; border: none; text-align: left !important; }
+      tbody td:nth-child(1) { grid-column: 1; grid-row: 1; font-size: 14.5px; }
       tbody td:nth-child(3) { grid-column: 2; grid-row: 1; text-align: right !important; font-size: 15px; white-space: nowrap; }
       tbody td:nth-child(2) { grid-column: 1 / -1; grid-row: 2; font-size: 12px; }
-      tbody td:nth-child(4) { grid-column: 1; grid-row: 3; margin-top: 4px; }
-      tbody td:nth-child(5) { grid-column: 2; grid-row: 3; margin-top: 4px; text-align: right !important; }
-      tfoot tr {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 14px;
-        background: var(--content);
-      }
+      tbody td:nth-child(4) { grid-column: 1; grid-row: 3; margin-top: 6px; }
+      tbody td:nth-child(5) { grid-column: 2; grid-row: 3; margin-top: 6px; text-align: right !important; }
+      tfoot tr { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--content); }
       tfoot td { padding: 0; width: auto; background: transparent; border: none; }
       tfoot td:last-child { display: none; }
     }
 
     .badge {
-      display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px;
+      display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px;
       font-size: 11px; font-weight: 600; border: 1px solid var(--border); color: var(--muted);
     }
     .status-yellow { background: var(--warning-bg); border-color: var(--warning-border); color: var(--warning); }
@@ -283,28 +315,23 @@
     .row-paid { opacity: 0.68; }
     .line-through { text-decoration: line-through; color: var(--muted); }
 
-    .queue-box { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; }
-    .queue-item {
-      display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 14px;
-      border-radius: 12px; border: 1px solid var(--border); background: var(--bg);
-    }
-    .thumb {
-      width: 60px; height: 60px; border-radius: 10px; object-fit: cover; border: 1px solid var(--border);
-      cursor: zoom-in; flex-shrink: 0;
-    }
-    .pdf-thumb {
-      width: 60px; height: 60px; border-radius: 10px; border: 1px solid var(--border); background: var(--card);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-decoration: none; color: var(--error); font-size: 11px; font-weight: 700; flex-shrink: 0;
-    }
-    .queue-fields { flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 8px; }
+    @keyframes rowEnter { 0% { opacity: 0; transform: translateY(-8px) scale(0.985); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes rowExit { 0% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(28px); } }
+    .row-enter { animation: rowEnter .32s cubic-bezier(.22,1,.36,1) both; }
+    .row-exit { animation: rowExit .22s ease-in forwards; pointer-events: none; }
+
+    /* Photo / PDF Queue */
+    .queue-box { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
+    .queue-item { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); }
+    .thumb { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; border: 1px solid var(--border); cursor: zoom-in; flex-shrink: 0; }
+    .pdf-thumb { width: 56px; height: 56px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; color: var(--error); font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .queue-fields { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 8px; }
     .queue-inputs { display: grid; grid-template-columns: 4fr 3fr 2fr auto; gap: 8px; }
     @media (max-width: 640px) { .queue-inputs { grid-template-columns: 1fr; } }
 
     .modal {
-      position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(6px);
-      display: flex; align-items: center; justify-content: center; padding: 16px;
+      position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.76);
+      backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px;
     }
     .modal-inner { max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
     .modal img { max-width: 100%; max-height: 82vh; border-radius: 12px; background: #000; }
@@ -312,58 +339,72 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
-    <header class="header">
-      <div>
-        <div class="brand">
-          <img src="./icon.svg" alt="Rechnungen CH Logo" style="width: 44px; height: 44px; border-radius: 12px; box-shadow: 0 8px 18px -4px rgba(225, 29, 72, 0.45); flex-shrink: 0;" />
-          <div>
-            <h1>Rechnungen CH</h1>
-            <p class="subtitle" style="font-weight: 600; color: var(--fg); opacity: 0.82;">Jede Rechnung im Griff. Keine Mahnung mehr.</p>
-          </div>
+    <!-- Single-Line Modern Top Bar -->
+    <header class="topbar">
+      <div class="brand">
+        <img src="./icon.svg" alt="Rechnungen CH" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Rechnungen CH</h1>
+          <p class="tagline">Jede Rechnung im Griff. Keine Mahnung mehr.</p>
         </div>
       </div>
-      <div class="btn-row">
-        <button id="installBtn" type="button" class="btn btn-primary hidden">📲 App installieren</button>
-        <button id="themeBtn" type="button" class="btn" title="Design wechseln">🌓 Design</button>
-        <button id="exportCsvBtn" type="button" class="btn">CSV exportieren</button>
-        <button id="clearAllBtn" type="button" class="btn btn-muted">Tabelle leeren</button>
-        <button id="exitAppBtn" type="button" class="btn btn-danger" title="App beenden">🚪 Beenden</button>
+      <div class="topbar-actions">
+        <button id="themeBtn" type="button" class="icon-btn" title="Design wechseln">🌓</button>
+        <button id="menuBtn" type="button" class="icon-btn" title="Optionen">⋮</button>
+        <button id="exitAppBtn" type="button" class="icon-btn icon-btn-exit" title="App beenden">🚪</button>
+
+        <div id="menuDropdown" class="menu-dropdown hidden">
+          <button id="installBtn" type="button" class="menu-item menu-item-primary hidden">📲 App installieren</button>
+          <button id="exportCsvBtn" type="button" class="menu-item">📤 CSV exportieren</button>
+          <button id="clearAllBtn" type="button" class="menu-item" style="color: var(--error);">🧹 Tabelle leeren</button>
+        </div>
       </div>
     </header>
 
-    <!-- Summary Cards -->
-    <section class="grid-3">
-      <div class="card kpi-card">
-        <div class="kpi-label">Gesamtbetrag</div>
-        <div id="totalAll" class="kpi-val">CHF 0.00</div>
-        <div id="countAll" class="kpi-sub">0 Rechnungen</div>
+    <!-- 3D Fintech Hero Balance Card -->
+    <section class="hero-card" id="heroCard">
+      <div class="hero-top">
+        <div>
+          <div class="hero-label">Gesamtbetrag</div>
+          <div id="totalAll" class="hero-amount">CHF 0.00</div>
+        </div>
+        <span id="countAll" class="hero-pill">0 Rechnungen</span>
       </div>
-      <div class="card kpi-card">
-        <div class="kpi-label">Noch offen</div>
-        <div id="totalPending" class="kpi-val text-warning">CHF 0.00</div>
-        <div id="countPending" class="kpi-sub">0 offen</div>
+
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div id="paidProgress" class="progress-fill"></div>
+        </div>
       </div>
-      <div class="card kpi-card">
-        <div class="kpi-label">Bezahlt</div>
-        <div id="totalPaid" class="kpi-val text-success">CHF 0.00</div>
-        <div id="countPaid" class="kpi-sub">0 bezahlt</div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-label"><span class="dot" style="background: #fbbf24; margin: 0;"></span>Noch offen</div>
+          <div id="totalPending" class="hero-stat-val">CHF 0.00</div>
+          <div id="countPending" class="hero-stat-sub">0 offen</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label"><span class="dot" style="background: #34d399; margin: 0;"></span>Bezahlt</div>
+          <div id="totalPaid" class="hero-stat-val">CHF 0.00</div>
+          <div id="countPaid" class="hero-stat-sub">0 bezahlt</div>
+        </div>
       </div>
     </section>
 
     <!-- Add Invoice Card -->
     <section class="card">
-      <div style="margin-bottom: 10px;">
-        <strong style="font-size: 14px;">Neue Rechnung hinzufügen</strong>
+      <div class="section-title">
+        <span>Neue Rechnung hinzufügen</span>
       </div>
+
       <div class="upload-grid">
-        <label for="cameraInput" class="btn btn-label">📷 Foto</label>
+        <label for="cameraInput" class="upload-tile"><span class="ico">📷</span><span>Foto</span></label>
         <input id="cameraInput" type="file" accept="image/*" capture="environment" class="hidden" />
 
-        <label for="galleryInput" class="btn btn-label">🖼️ Galerie</label>
+        <label for="galleryInput" class="upload-tile"><span class="ico">🖼️</span><span>Galerie</span></label>
         <input id="galleryInput" type="file" accept="image/*" multiple class="hidden" />
 
-        <label for="pdfInput" class="btn btn-label">📄 PDF</label>
+        <label for="pdfInput" class="upload-tile"><span class="ico">📄</span><span>PDF</span></label>
         <input id="pdfInput" type="file" accept="application/pdf,.pdf" multiple class="hidden" />
       </div>
 
@@ -381,43 +422,32 @@
           <input id="amount" type="number" step="any" min="0.01" inputmode="decimal" required placeholder="0.00" class="tabular" />
         </div>
         <div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 9px 12px; font-size: 14px;">+ Hinzufügen</button>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px 12px; font-size: 14px;">+ Hinzufügen</button>
         </div>
       </form>
 
       <!-- Photo / PDF Queue -->
       <div id="photoQueueContainer" class="queue-box hidden">
-        <div class="header">
-          <div>
-            <strong style="font-size: 12px; text-transform: uppercase; color: var(--muted);">
-              Gescannte Rechnungen aus Foto / PDF (<span id="photoQueueCount">0</span>)
-            </strong>
-            <p class="subtitle">Prüfe die erkannten Daten (Schweizer QR-Code / PDF-Text) oder ergänze die Felder vor dem Hinzufügen.</p>
-          </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+          <strong style="font-size: 12px; text-transform: uppercase; color: var(--muted);">
+            Gescannt (<span id="photoQueueCount">0</span>)
+          </strong>
           <div class="btn-row">
-            <button id="addAllPhotosBtn" type="button" class="btn btn-primary">+ Alle gültigen hinzufügen</button>
-            <button id="clearPhotosBtn" type="button" class="btn btn-muted">Verwerfen</button>
+            <button id="addAllPhotosBtn" type="button" class="btn btn-primary" style="padding: 6px 10px; font-size: 12px;">+ Alle hinzufügen</button>
+            <button id="clearPhotosBtn" type="button" class="btn btn-muted" style="padding: 6px 10px; font-size: 12px;">Verwerfen</button>
           </div>
         </div>
         <div id="photoQueueList" style="display: flex; flex-direction: column; gap: 10px;"></div>
       </div>
     </section>
 
-    <!-- Image Preview Modal -->
-    <div id="imageModal" class="modal hidden">
-      <div class="modal-inner">
-        <button id="closeModalBtn" type="button" class="btn">Schliessen ✕</button>
-        <img id="modalImg" src="" alt="Rechnungsvorschau" />
-      </div>
-    </div>
-
-    <!-- Filters & Legend -->
-    <div class="filters-bar">
-      <div class="btn-row">
-        <button data-filter="all" class="btn btn-primary filter-btn">Alle</button>
-        <button data-filter="pending" class="btn filter-btn">Offen</button>
-        <button data-filter="paid" class="btn filter-btn">Bezahlt</button>
-        <button data-filter="urgent" class="btn filter-btn">Dringend / Überfällig</button>
+    <!-- Segmented Filter Bar & Legend -->
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <div class="segmented">
+        <button data-filter="all" class="seg-btn active filter-btn">Alle</button>
+        <button data-filter="pending" class="seg-btn filter-btn">Offen</button>
+        <button data-filter="paid" class="seg-btn filter-btn">Bezahlt</button>
+        <button data-filter="urgent" class="seg-btn filter-btn">Dringend</button>
       </div>
       <div class="legend">
         <span><span class="dot" style="background: var(--warning);"></span>≤ 5 Tage</span>
@@ -426,7 +456,7 @@
       </div>
     </div>
 
-    <!-- Invoices Table -->
+    <!-- Invoices List -->
     <section class="card" style="padding: 0; overflow: hidden;">
       <div class="table-wrap">
         <table>
@@ -435,7 +465,7 @@
               <th>Institution</th>
               <th>Zahlungsfrist</th>
               <th class="text-right">Betrag (CHF)</th>
-              <th class="text-center">Zahlungsstatus</th>
+              <th class="text-center">Status</th>
               <th class="text-right">Aktion</th>
             </tr>
           </thead>
@@ -451,23 +481,28 @@
       </div>
     </section>
 
-    <footer style="text-align: center; padding: 10px 0 6px; font-size: 11.5px; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 6px;">
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 8px 0 6px; font-size: 11.5px; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 6px;">
       <div>© <span id="copyrightYear">2026</span> Rechnungen CH · Alle Rechte vorbehalten.</div>
       <div style="display: flex; align-items: center; gap: 12px;">
-        <button id="openLegalBtn" type="button" style="background: none; border: none; color: var(--muted); font-size: 11.5px; text-decoration: underline; cursor: pointer; padding: 0;">
-          Impressum / Rechtliches
-        </button>
+        <button id="openLegalBtn" type="button" style="background: none; border: none; color: var(--muted); font-size: 11.5px; text-decoration: underline; cursor: pointer; padding: 0;">Impressum / Rechtliches</button>
         <span>·</span>
-        <button id="openPrivacyBtn" type="button" style="background: none; border: none; color: var(--muted); font-size: 11.5px; text-decoration: underline; cursor: pointer; padding: 0;">
-          Datenschutz
-        </button>
+        <button id="openPrivacyBtn" type="button" style="background: none; border: none; color: var(--muted); font-size: 11.5px; text-decoration: underline; cursor: pointer; padding: 0;">Datenschutz</button>
       </div>
     </footer>
 
+    <!-- Image Preview Modal -->
+    <div id="imageModal" class="modal hidden">
+      <div class="modal-inner">
+        <button id="closeModalBtn" type="button" class="btn">Schliessen ✕</button>
+        <img id="modalImg" src="" alt="Rechnungsvorschau" />
+      </div>
+    </div>
+
     <!-- Legal & Privacy Modal -->
     <div id="legalModal" class="modal hidden">
-      <div class="card" style="max-width: 560px; width: 100%; max-height: 85vh; overflow-y: auto; text-align: left;">
-        <div class="header" style="margin-bottom: 12px;">
+      <div class="card" style="max-width: 540px; width: 100%; max-height: 85vh; overflow-y: auto; text-align: left;">
+        <div class="topbar" style="margin-bottom: 10px;">
           <strong id="legalModalTitle" style="font-size: 16px;">Rechtliches</strong>
           <button id="closeLegalBtn" type="button" class="btn" style="padding: 5px 10px; font-size: 12px;">Schliessen ✕</button>
         </div>
@@ -478,7 +513,7 @@
     <!-- Edit Invoice Modal -->
     <div id="editModal" class="modal hidden">
       <div class="card" style="max-width: 440px; width: 100%; text-align: left;">
-        <div class="header" style="margin-bottom: 14px;">
+        <div class="topbar" style="margin-bottom: 12px;">
           <strong style="font-size: 16px;">Rechnung bearbeiten</strong>
           <button id="closeEditBtn" type="button" class="btn" style="padding: 5px 10px; font-size: 12px;">Schliessen ✕</button>
         </div>
@@ -504,12 +539,12 @@
       </div>
     </div>
 
-    <!-- Exit App Overlay (fallback when browser blocks window.close) -->
+    <!-- Exit App Overlay -->
     <div id="exitOverlay" class="modal hidden" style="background: var(--bg);">
-      <div class="card" style="max-width: 380px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+      <div class="card" style="max-width: 360px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;">
         <img src="./icon.svg" alt="Rechnungen CH" style="width: 56px; height: 56px; border-radius: 16px;" />
         <strong style="font-size: 18px;">App beendet</strong>
-        <p class="subtitle" style="margin: 0; font-size: 13px;">
+        <p style="margin: 0; font-size: 13px; color: var(--muted);">
           Alle deine Rechnungen wurden sicher gespeichert. Du kannst das Fenster jetzt schliessen.
         </p>
         <button id="reopenAppBtn" type="button" class="btn btn-primary" style="margin-top: 6px;">Wieder öffnen</button>
@@ -520,9 +555,7 @@
   <script>
     // --- PWA Registration & Install Prompt ---
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-      });
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
     }
 
     let deferredPrompt = null;
@@ -533,6 +566,7 @@
       installBtn.classList.remove('hidden');
     });
     installBtn.addEventListener('click', async () => {
+      menuDropdown.classList.add('hidden');
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
       await deferredPrompt.userChoice;
@@ -540,22 +574,41 @@
       installBtn.classList.add('hidden');
     });
 
+    // --- Topbar Menu Dropdown ---
+    const menuBtn = document.getElementById('menuBtn');
+    const menuDropdown = document.getElementById('menuDropdown');
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menuDropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', () => menuDropdown.classList.add('hidden'));
+
     // --- Theme Toggle ---
     const THEME_KEY = 'rechnungen_ch_theme';
     const savedTheme = localStorage.getItem(THEME_KEY);
     if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
     document.getElementById('themeBtn').addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem(THEME_KEY, next);
     });
+
+    // --- Subtle 3D Tilt on Hero Card ---
+    const heroCard = document.getElementById('heroCard');
+    heroCard.addEventListener('mousemove', (e) => {
+      const r = heroCard.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      heroCard.style.transform = `perspective(900px) rotateX(${(-y * 5).toFixed(2)}deg) rotateY(${(x * 5).toFixed(2)}deg)`;
+    });
+    heroCard.addEventListener('mouseleave', () => { heroCard.style.transform = ''; });
 
     // --- Invoice State ---
     const STORAGE_KEY = 'rechnungen_ch_v2';
     let invoices = [];
     let currentFilter = 'all';
     let photoQueue = [];
+    let lastAddedId = null;
 
     function formatDateISO(offsetDays) {
       const d = new Date();
@@ -568,9 +621,7 @@
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
         invoices = saved ? JSON.parse(saved) : [];
-      } catch {
-        invoices = [];
-      }
+      } catch { invoices = []; }
     }
 
     function saveInvoices() {
@@ -600,11 +651,7 @@
       const days = getDaysRemaining(inv.dueDate);
       if (days < 0) {
         const overdue = Math.abs(days);
-        return {
-          label: overdue === 1 ? 'Seit 1 Tag überfällig' : `Seit ${overdue} Tagen überfällig`,
-          badgeClass: 'status-red',
-          rowClass: 'row-red'
-        };
+        return { label: overdue === 1 ? 'Seit 1 Tag überfällig' : `Seit ${overdue} Tagen überfällig`, badgeClass: 'status-red', rowClass: 'row-red' };
       }
       if (days <= 5) {
         const label = days === 0 ? 'Heute fällig' : (days === 1 ? 'Morgen fällig' : `Noch ${days} Tage`);
@@ -617,35 +664,17 @@
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    // --- 3D Tilt for KPI Cards ---
-    document.querySelectorAll('.kpi-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) translateY(-3px)`;
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
-      });
-    });
-
-    // --- Animated CHF Counter ---
     const animatedValues = {};
     function animateCHF(elId, targetVal) {
       const el = document.getElementById(elId);
       const startVal = animatedValues[elId] ?? targetVal;
       animatedValues[elId] = targetVal;
-      if (Math.abs(targetVal - startVal) < 0.005) {
-        el.textContent = formatCHF(targetVal);
-        return;
-      }
+      if (Math.abs(targetVal - startVal) < 0.005) { el.textContent = formatCHF(targetVal); return; }
       el.classList.add('pop');
       setTimeout(() => el.classList.remove('pop'), 220);
-      const duration = 340;
       const startTime = performance.now();
       function step(now) {
-        const p = Math.min(1, (now - startTime) / duration);
+        const p = Math.min(1, (now - startTime) / 340);
         const eased = 1 - Math.pow(1 - p, 3);
         el.textContent = formatCHF(startVal + (targetVal - startVal) * eased);
         if (p < 1) requestAnimationFrame(step);
@@ -653,8 +682,6 @@
       }
       requestAnimationFrame(step);
     }
-
-    let lastAddedId = null;
 
     function render() {
       const totalAll = invoices.reduce((s, i) => s + Number(i.amount), 0);
@@ -669,6 +696,9 @@
       document.getElementById('countPending').textContent = `${pendingList.length} offen`;
       animateCHF('totalPaid', totalPaid);
       document.getElementById('countPaid').textContent = `${paidList.length} bezahlt`;
+
+      const pct = totalAll > 0 ? Math.round((totalPaid / totalAll) * 100) : 0;
+      document.getElementById('paidProgress').style.width = `${pct}%`;
 
       const filtered = invoices.filter(inv => {
         if (currentFilter === 'pending') return !inv.paid;
@@ -686,16 +716,16 @@
           const enterClass = inv.id === lastAddedId ? 'row-enter' : '';
           return `
             <tr data-row-id="${inv.id}" class="${st.rowClass} ${enterClass}">
-              <td class="${inv.paid ? 'line-through' : ''}" style="font-weight: 600;">${escapeHtml(inv.institution)}</td>
+              <td class="${inv.paid ? 'line-through' : ''}" style="font-weight: 700;">${escapeHtml(inv.institution)}</td>
               <td>
-                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
                   <span class="tabular" style="font-weight: 600;">${formatDisplayDate(inv.dueDate)}</span>
                   <span class="badge ${st.badgeClass}">${st.label}</span>
                 </div>
               </td>
-              <td class="text-right tabular" style="font-weight: 700;">${formatCHF(inv.amount)}</td>
+              <td class="text-right tabular" style="font-weight: 800;">${formatCHF(inv.amount)}</td>
               <td class="text-center">
-                <select data-id="${inv.id}" class="paid-select" style="width: auto; padding: 5px 8px; font-size: 12px;">
+                <select data-id="${inv.id}" class="paid-select" style="width: auto; padding: 6px 10px; font-size: 12px;">
                   <option value="false" ${!inv.paid ? 'selected' : ''}>Offen</option>
                   <option value="true" ${inv.paid ? 'selected' : ''}>Bezahlt</option>
                 </select>
@@ -703,13 +733,9 @@
               <td class="text-right">
                 <div style="display: inline-flex; align-items: center; gap: 6px; justify-content: flex-end;">
                   ${!inv.paid ? `
-                    <button data-id="${inv.id}" type="button" class="btn edit-btn" style="padding: 6px 10px; font-size: 12px;" title="Rechnung bearbeiten">
-                      <span>✏️</span> Bearbeiten
-                    </button>
+                    <button data-id="${inv.id}" type="button" class="btn edit-btn" style="padding: 6px 10px; font-size: 12px;" title="Rechnung bearbeiten">✏️ Bearbeiten</button>
                   ` : ''}
-                  <button data-id="${inv.id}" type="button" class="btn btn-danger delete-btn" title="Rechnung entfernen">
-                    <span>🗑️</span> Entfernen
-                  </button>
+                  <button data-id="${inv.id}" type="button" class="btn btn-danger delete-btn" title="Rechnung entfernen">🗑️ Entfernen</button>
                 </div>
               </td>
             </tr>
@@ -737,15 +763,11 @@
       const newId = crypto.randomUUID();
       lastAddedId = newId;
       invoices.push({ id: newId, institution, dueDate, amount: Math.round(amount * 100) / 100, paid: false });
-      saveInvoices();
-      render();
-      instEl.value = '';
-      amtEl.value = '';
-      dateEl.value = formatDateISO(0);
-      instEl.focus();
+      saveInvoices(); render();
+      instEl.value = ''; amtEl.value = ''; dateEl.value = formatDateISO(0); instEl.focus();
     });
 
-    // Status change, edit & delete with smooth exit animation
+    // Status change, edit & delete
     document.getElementById('invoiceTableBody').addEventListener('change', (e) => {
       if (!e.target.classList.contains('paid-select')) return;
       const inv = invoices.find(i => i.id === e.target.dataset.id);
@@ -774,11 +796,8 @@
       if (!institution || !dueDate || isNaN(amount) || amount <= 0) return;
       const inv = invoices.find(i => i.id === id);
       if (inv && !inv.paid) {
-        inv.institution = institution;
-        inv.dueDate = dueDate;
-        inv.amount = Math.round(amount * 100) / 100;
-        saveInvoices();
-        render();
+        inv.institution = institution; inv.dueDate = dueDate; inv.amount = Math.round(amount * 100) / 100;
+        saveInvoices(); render();
       }
       closeEditModal();
     });
@@ -796,15 +815,9 @@
       const tr = btn.closest('tr');
       if (tr) {
         tr.classList.add('row-exit');
-        setTimeout(() => {
-          invoices = invoices.filter(i => i.id !== id);
-          saveInvoices();
-          render();
-        }, 230);
+        setTimeout(() => { invoices = invoices.filter(i => i.id !== id); saveInvoices(); render(); }, 220);
       } else {
-        invoices = invoices.filter(i => i.id !== id);
-        saveInvoices();
-        render();
+        invoices = invoices.filter(i => i.id !== id); saveInvoices(); render();
       }
     });
 
@@ -812,26 +825,25 @@
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         currentFilter = btn.dataset.filter;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('btn-primary', b === btn));
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
         render();
       });
     });
 
     // Clear all & CSV
     document.getElementById('clearAllBtn').addEventListener('click', () => {
+      menuDropdown.classList.add('hidden');
       if (invoices.length === 0) return;
-      invoices = [];
-      saveInvoices();
-      render();
+      invoices = []; saveInvoices(); render();
     });
 
     document.getElementById('exportCsvBtn').addEventListener('click', () => {
+      menuDropdown.classList.add('hidden');
       const header = ['Institution', 'Zahlungsfrist', 'Betrag (CHF)', 'Status'];
       const rows = invoices.map(i => [`"${i.institution.replace(/"/g, '""')}"`, i.dueDate, i.amount.toFixed(2), i.paid ? 'Bezahlt' : 'Offen']);
       const csv = [header.join(','), ...rows.map(r => r.join(','))].join('\n');
       const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-      const a = document.createElement('a');
-      a.href = url; a.download = 'rechnungen_schweiz.csv'; a.click();
+      const a = document.createElement('a'); a.href = url; a.download = 'rechnungen_schweiz.csv'; a.click();
       URL.revokeObjectURL(url);
     });
 
@@ -853,9 +865,7 @@
     }
 
     async function scanImageForSwissQR(file) {
-      if (!('BarcodeDetector' in window)) {
-        return { detected: false, reason: 'Kein nativer QR-Scanner in diesem Browser — Daten bitte ergänzen' };
-      }
+      if (!('BarcodeDetector' in window)) return { detected: false, reason: 'Kein nativer QR-Scanner — Daten bitte ergänzen' };
       try {
         const detector = new BarcodeDetector({ formats: ['qr_code'] });
         const bitmap = await createImageBitmap(file);
@@ -865,10 +875,8 @@
           const parsed = parseSwissQR(code.rawValue);
           if (parsed) return { detected: true, ...parsed };
         }
-        return { detected: false, reason: 'Kein Schweizer QR-Code erkannt — Daten anhand des Fotos ergänzen' };
-      } catch {
-        return { detected: false, reason: 'QR-Code konnte nicht gelesen werden — bitte manuell ergänzen' };
-      }
+        return { detected: false, reason: 'Kein Schweizer QR-Code erkannt — Daten ergänzen' };
+      } catch { return { detected: false, reason: 'QR-Code nicht lesbar — bitte manuell ergänzen' }; }
     }
 
     async function inflateBytes(bytes) {
@@ -877,8 +885,7 @@
         try {
           const ds = new DecompressionStream(fmt);
           const writer = ds.writable.getWriter();
-          writer.write(bytes);
-          writer.close();
+          writer.write(bytes); writer.close();
           return new Uint8Array(await new Response(ds.readable).arrayBuffer());
         } catch {}
       }
@@ -890,8 +897,7 @@
       const regex = /\(([^()\\]*(?:\\.[^()\\]*)*)\)/g;
       let m;
       while ((m = regex.exec(content)) !== null) {
-        const cleaned = m[1]
-          .replace(/\\n/g, '\n').replace(/\\r/g, ' ').replace(/\\t/g, ' ')
+        const cleaned = m[1].replace(/\\n/g, '\n').replace(/\\r/g, ' ').replace(/\\t/g, ' ')
           .replace(/\\\(/g, '(').replace(/\\\)/g, ')').replace(/\\\\/g, '\\')
           .replace(/\\(\d{3})/g, (_, oct) => String.fromCharCode(parseInt(oct, 8)));
         if (cleaned.trim()) chunks.push(cleaned);
@@ -936,10 +942,7 @@
       ];
       for (const re of amountPatterns) {
         const m = text.match(re);
-        if (m) {
-          const val = parseFloat(m[1].replace(/['’\s]/g, ''));
-          if (!isNaN(val) && val > 0) { amount = val; break; }
-        }
+        if (m) { const val = parseFloat(m[1].replace(/['’\s]/g, '')); if (!isNaN(val) && val > 0) { amount = val; break; } }
       }
       const duePatterns = [
         /(?:Zahlbar\s+bis|Fällig(?:keitsdatum|\s+am|\s+bis)?|Zahlungsfrist|Echéance|Scadenza|bis\s+am)[^0-9]{0,20}(\d{1,2})\.(\d{1,2})\.(20\d{2})/i,
@@ -947,10 +950,7 @@
       ];
       for (const re of duePatterns) {
         const m = text.match(re);
-        if (m) {
-          dueDate = m[1].length === 4 ? `${m[1]}-${m[2]}-${m[3]}` : `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
-          break;
-        }
+        if (m) { dueDate = m[1].length === 4 ? `${m[1]}-${m[2]}-${m[3]}` : `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`; break; }
       }
       const payableTo = text.match(/(?:Zahlbar\s+an|Empfänger|Kreditor|Payable\s+à)\s+([A-ZÄÖÜ][A-Za-zÄÖÜäöüß0-9&\.\-\s]{2,45})/i);
       if (payableTo) institution = payableTo[1].trim().split(/\s{2,}/)[0].trim();
@@ -970,42 +970,25 @@
       for (const file of files) {
         const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
         const item = {
-          id: crypto.randomUUID(),
-          fileName: file.name,
-          isPdf,
-          previewUrl: URL.createObjectURL(file),
-          detected: false,
-          statusText: isPdf ? 'PDF wird analysiert...' : 'Foto wird analysiert...',
-          institution: '',
-          dueDate: formatDateISO(0),
-          amount: ''
+          id: crypto.randomUUID(), fileName: file.name, isPdf, previewUrl: URL.createObjectURL(file),
+          detected: false, statusText: isPdf ? 'PDF wird analysiert...' : 'Foto wird analysiert...',
+          institution: '', dueDate: formatDateISO(0), amount: ''
         };
-        photoQueue.push(item);
-        renderPhotoQueue();
-
+        photoQueue.push(item); renderPhotoQueue();
         if (isPdf) {
           try {
             const parsed = parseSwissInvoiceText(await extractTextFromPDF(file), file.name);
-            item.detected = parsed.detected;
-            item.institution = parsed.institution || '';
-            item.amount = parsed.amount !== '' ? parsed.amount : '';
-            item.dueDate = parsed.dueDate || formatDateISO(0);
-            item.statusText = parsed.detected ? 'PDF-Daten erkannt ✓' : 'PDF ohne lesbaren Text (Scan) — bitte Daten ergänzen';
-          } catch {
-            item.institution = file.name.replace(/\.pdf$/i, '');
-            item.statusText = 'PDF konnte nicht gelesen werden — bitte manuell ergänzen';
-          }
+            item.detected = parsed.detected; item.institution = parsed.institution || '';
+            item.amount = parsed.amount !== '' ? parsed.amount : ''; item.dueDate = parsed.dueDate || formatDateISO(0);
+            item.statusText = parsed.detected ? 'PDF-Daten erkannt ✓' : 'PDF-Scan — bitte Daten ergänzen';
+          } catch { item.institution = file.name.replace(/\.pdf$/i, ''); item.statusText = 'Bitte manuell ergänzen'; }
         } else {
           const res = await scanImageForSwissQR(file);
           item.detected = res.detected;
           if (res.detected) {
-            item.institution = res.institution || '';
-            item.amount = res.amount !== '' ? res.amount : '';
-            item.dueDate = res.dueDate || formatDateISO(0);
-            item.statusText = 'Schweizer QR-Code erkannt ✓';
-          } else {
-            item.statusText = res.reason;
-          }
+            item.institution = res.institution || ''; item.amount = res.amount !== '' ? res.amount : '';
+            item.dueDate = res.dueDate || formatDateISO(0); item.statusText = 'Schweizer QR-Code erkannt ✓';
+          } else item.statusText = res.reason;
         }
         renderPhotoQueue();
       }
@@ -1019,15 +1002,10 @@
       container.classList.remove('hidden');
       list.innerHTML = photoQueue.map(item => `
         <div data-qid="${item.id}" class="queue-item">
-          ${item.isPdf ? `
-            <a href="${item.previewUrl}" target="_blank" rel="noopener" class="pdf-thumb" title="PDF öffnen">
-              <span style="font-size: 20px;">📄</span><span>PDF</span>
-            </a>
-          ` : `
-            <img src="${item.previewUrl}" alt="${escapeHtml(item.fileName)}" data-preview="${item.previewUrl}" class="thumb photo-thumb" title="Klicken zum Vergrössern" />
-          `}
+          ${item.isPdf ? `<a href="${item.previewUrl}" target="_blank" rel="noopener" class="pdf-thumb" title="PDF öffnen"><span style="font-size: 20px;">📄</span><span>PDF</span></a>`
+            : `<img src="${item.previewUrl}" alt="${escapeHtml(item.fileName)}" data-preview="${item.previewUrl}" class="thumb photo-thumb" title="Vergrössern" />`}
           <div class="queue-fields">
-            <div class="header">
+            <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:6px;">
               <span style="font-size: 12px; font-weight: 600;">${escapeHtml(item.fileName)}</span>
               <span class="badge ${item.detected ? 'status-green' : 'status-yellow'}">${escapeHtml(item.statusText)}</span>
             </div>
@@ -1058,43 +1036,34 @@
     document.getElementById('photoQueueList').addEventListener('click', (e) => {
       if (e.target.classList.contains('photo-thumb')) {
         document.getElementById('modalImg').src = e.target.dataset.preview;
-        document.getElementById('imageModal').classList.remove('hidden');
-        return;
+        document.getElementById('imageModal').classList.remove('hidden'); return;
       }
       const row = e.target.closest('[data-qid]');
       if (!row) return;
       const item = photoQueue.find(q => q.id === row.dataset.qid);
       if (!item) return;
       if (e.target.closest('.q-remove-btn')) {
-        URL.revokeObjectURL(item.previewUrl);
-        photoQueue = photoQueue.filter(q => q.id !== item.id);
-        renderPhotoQueue();
-        return;
+        URL.revokeObjectURL(item.previewUrl); photoQueue = photoQueue.filter(q => q.id !== item.id); renderPhotoQueue(); return;
       }
       if (e.target.closest('.q-add-btn')) {
         const inst = String(item.institution || '').trim();
         const amt = parseFloat(item.amount);
-        if (!inst || !item.dueDate || isNaN(amt) || amt <= 0) {
-          alert('Bitte Institution, Zahlungsfrist und einen gültigen Betrag in CHF ausfüllen.');
-          return;
-        }
-        invoices.push({ id: crypto.randomUUID(), institution: inst, dueDate: item.dueDate, amount: Math.round(amt * 100) / 100, paid: false });
-        URL.revokeObjectURL(item.previewUrl);
-        photoQueue = photoQueue.filter(q => q.id !== item.id);
+        if (!inst || !item.dueDate || isNaN(amt) || amt <= 0) { alert('Bitte Institution, Zahlungsfrist und einen gültigen Betrag in CHF ausfüllen.'); return; }
+        const newId = crypto.randomUUID(); lastAddedId = newId;
+        invoices.push({ id: newId, institution: inst, dueDate: item.dueDate, amount: Math.round(amt * 100) / 100, paid: false });
+        URL.revokeObjectURL(item.previewUrl); photoQueue = photoQueue.filter(q => q.id !== item.id);
         saveInvoices(); render(); renderPhotoQueue();
       }
     });
 
     document.getElementById('addAllPhotosBtn').addEventListener('click', () => {
-      const remaining = [];
-      let added = 0;
+      const remaining = []; let added = 0;
       for (const item of photoQueue) {
         const inst = String(item.institution || '').trim();
         const amt = parseFloat(item.amount);
         if (inst && item.dueDate && !isNaN(amt) && amt > 0) {
           invoices.push({ id: crypto.randomUUID(), institution: inst, dueDate: item.dueDate, amount: Math.round(amt * 100) / 100, paid: false });
-          URL.revokeObjectURL(item.previewUrl);
-          added++;
+          URL.revokeObjectURL(item.previewUrl); added++;
         } else remaining.push(item);
       }
       photoQueue = remaining;
@@ -1103,15 +1072,13 @@
     });
 
     document.getElementById('clearPhotosBtn').addEventListener('click', () => {
-      photoQueue.forEach(i => URL.revokeObjectURL(i.previewUrl));
-      photoQueue = [];
-      renderPhotoQueue();
+      photoQueue.forEach(i => URL.revokeObjectURL(i.previewUrl)); photoQueue = []; renderPhotoQueue();
     });
 
     document.getElementById('closeModalBtn').addEventListener('click', () => document.getElementById('imageModal').classList.add('hidden'));
     document.getElementById('imageModal').addEventListener('click', (e) => { if (e.target.id === 'imageModal') e.target.classList.add('hidden'); });
 
-    // --- Legal & Privacy Modals (Schweiz / nDSG) ---
+    // --- Legal & Privacy Modals (nDSG) ---
     const legalModal = document.getElementById('legalModal');
     const legalTitle = document.getElementById('legalModalTitle');
     const legalBody = document.getElementById('legalModalBody');
@@ -1121,7 +1088,7 @@
       legalBody.innerHTML = `
         <p style="margin:0;"><strong>Rechnungen CH</strong> ist eine lokale Web-App (PWA) zur persönlichen Verwaltung von Rechnungen in der Schweiz.</p>
         <p style="margin:0;"><strong>Urheberrecht (Copyright):</strong> © 2026 Rechnungen CH. Alle Rechte vorbehalten. Inhalte, Design und Quellcode dieser Anwendung sind urheberrechtlich geschützt.</p>
-        <p style="margin:0;"><strong>Haftungsausschluss:</strong> Die Nutzung erfolgt auf eigene Verantwortung. Für die Richtigkeit automatisch erkannter Daten aus QR-Codes oder PDF-Dateien sowie für die fristgerechte Begleichung von Rechnungen wird keine Haftung übernommen. Bitte überprüfe alle Angaben vor der Zahlung.</p>
+        <p style="margin:0;"><strong>Haftungsausschluss:</strong> Die Nutzung erfolgt auf eigene Verantwortung. Für die Richtigkeit automatisch erkannter Daten aus QR-Codes oder PDF-Dateien sowie für die fristgerechte Begleichung von Rechnungen wird keine Haftung übernommen.</p>
       `;
       legalModal.classList.remove('hidden');
     });
@@ -1130,9 +1097,8 @@
       legalTitle.textContent = 'Datenschutzerklärung (nDSG)';
       legalBody.innerHTML = `
         <p style="margin:0;">Der Schutz deiner Privatsphäre gemäss dem Schweizer Datenschutzgesetz (<strong>nDSG</strong>) hat oberste Priorität.</p>
-        <p style="margin:0;"><strong>100 % lokale Verarbeitung:</strong> Alle von dir eingegebenen Rechnungen, Beträge, Zahlungsfristen sowie hochgeladenen Fotos und PDF-Dateien werden ausschliesslich lokal auf deinem Gerät verarbeitet und im Browser (<code>localStorage</code>) gespeichert.</p>
-        <p style="margin:0;"><strong>Keine Server-Übertragung &amp; kein Tracking:</strong> Es werden keinerlei persönliche Daten, Rechnungen oder Bilder an externe Server übertragen. Diese App verwendet keine Analyse-Tools, keine Werbe-Tracker und keine Cookies von Drittanbietern.</p>
-        <p style="margin:0;"><strong>Daten löschen:</strong> Du kannst einzelne Einträge jederzeit über <em>Entfernen</em> oder alle Daten über <em>Tabelle leeren</em> bzw. durch Löschen der Browserdaten vollständig entfernen.</p>
+        <p style="margin:0;"><strong>100 % lokale Verarbeitung:</strong> Alle Rechnungen, Beträge, Zahlungsfristen sowie Fotos und PDF-Dateien werden ausschliesslich lokal auf deinem Gerät verarbeitet und im Browser (<code>localStorage</code>) gespeichert.</p>
+        <p style="margin:0;"><strong>Keine Server-Übertragung &amp; kein Tracking:</strong> Es werden keinerlei Daten an externe Server übertragen. Keine Tracker, keine Werbe-Cookies.</p>
       `;
       legalModal.classList.remove('hidden');
     });
@@ -1145,14 +1111,9 @@
     document.getElementById('exitAppBtn').addEventListener('click', () => {
       saveInvoices();
       window.close();
-      // Fallback for mobile browsers/tabs where window.close() is restricted
-      setTimeout(() => {
-        exitOverlay.classList.remove('hidden');
-      }, 150);
+      setTimeout(() => exitOverlay.classList.remove('hidden'), 150);
     });
-    document.getElementById('reopenAppBtn').addEventListener('click', () => {
-      exitOverlay.classList.add('hidden');
-    });
+    document.getElementById('reopenAppBtn').addEventListener('click', () => exitOverlay.classList.add('hidden'));
 
     document.getElementById('dueDate').value = formatDateISO(0);
     loadInvoices();
