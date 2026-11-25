@@ -186,17 +186,24 @@
     }
 
     .hero-stats {
-      position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;
+      position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px;
     }
     .hero-stat {
-      padding: 11px 13px; border-radius: 14px;
+      padding: 10px 10px; border-radius: 14px;
       background: rgba(255, 255, 255, 0.11); border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px); min-width: 0;
     }
-    .hero-stat-label { font-size: 11px; font-weight: 600; opacity: 0.8; display: flex; align-items: center; gap: 6px; }
-    .hero-stat-val { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 3px; display: inline-block; transition: transform .2s; }
+    .hero-stat-label { font-size: 10.5px; font-weight: 600; opacity: 0.82; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .hero-stat-val { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 3px; display: inline-block; transition: transform .2s; white-space: nowrap; }
     .hero-stat-val.pop { transform: scale(1.06); }
-    .hero-stat-sub { font-size: 11px; opacity: 0.72; }
+    .hero-stat-sub { font-size: 10.5px; opacity: 0.72; }
+    .hero-income-btn {
+      padding: 7px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+      background: rgba(255, 255, 255, 0.2); color: #fff; border: 1px solid rgba(255, 255, 255, 0.32);
+      cursor: pointer; backdrop-filter: blur(8px); white-space: nowrap;
+      transition: background .15s, transform .14s ease;
+    }
+    .hero-income-btn:hover { background: rgba(255, 255, 255, 0.3); transform: translateY(-1px); }
 
     /* Cards & Controls */
     .card {
@@ -365,10 +372,11 @@
     <section class="hero-card" id="heroCard">
       <div class="hero-top">
         <div>
-          <div class="hero-label">Gesamtbetrag</div>
-          <div id="totalAll" class="hero-amount">CHF 0.00</div>
+          <div class="hero-label">Kontostand (Verfügbar)</div>
+          <div id="bankBalance" class="hero-amount">CHF 0.00</div>
+          <div id="totalAllSub" style="font-size: 11.5px; opacity: 0.75; margin-top: 2px;">Rechnungen total: <span id="totalAll" class="tabular" style="font-weight: 700;">CHF 0.00</span> (<span id="countAll">0</span>)</div>
         </div>
-        <span id="countAll" class="hero-pill">0 Rechnungen</span>
+        <button id="openIncomeBtn" type="button" class="hero-income-btn">+ Einkommen</button>
       </div>
 
       <div class="progress-wrap">
@@ -379,7 +387,12 @@
 
       <div class="hero-stats">
         <div class="hero-stat">
-          <div class="hero-stat-label"><span class="dot" style="background: #fbbf24; margin: 0;"></span>Noch offen</div>
+          <div class="hero-stat-label"><span class="dot" style="background: #38bdf8; margin: 0;"></span>Einkommen</div>
+          <div id="totalIncome" class="hero-stat-val">CHF 0.00</div>
+          <div id="countIncome" class="hero-stat-sub">0 Einträge</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-label"><span class="dot" style="background: #fbbf24; margin: 0;"></span>Offen</div>
           <div id="totalPending" class="hero-stat-val">CHF 0.00</div>
           <div id="countPending" class="hero-stat-sub">0 offen</div>
         </div>
@@ -539,6 +552,39 @@
       </div>
     </div>
 
+    <!-- Income Modal (Einkommen) -->
+    <div id="incomeModal" class="modal hidden">
+      <div class="card" style="max-width: 460px; width: 100%; max-height: 86vh; overflow-y: auto; text-align: left;">
+        <div class="topbar" style="margin-bottom: 12px;">
+          <strong style="font-size: 16px;">💰 Einkommen verwalten</strong>
+          <button id="closeIncomeBtn" type="button" class="btn" style="padding: 5px 10px; font-size: 12px;">Schliessen ✕</button>
+        </div>
+        <form id="incomeForm" style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
+          <div>
+            <label for="incomeSource" class="field-label">Beschreibung / Quelle</label>
+            <input id="incomeSource" type="text" required placeholder="z. B. Lohn, Bonus, Rückerstattung..." />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label for="incomeDate" class="field-label">Datum</label>
+              <input id="incomeDate" type="date" required />
+            </div>
+            <div>
+              <label for="incomeAmount" class="field-label">Betrag (CHF)</label>
+              <input id="incomeAmount" type="number" step="any" min="0.01" inputmode="decimal" required placeholder="0.00" class="tabular" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px;">+ Einkommen hinzufügen</button>
+        </form>
+        <div style="margin-top: 12px;">
+          <div style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">
+            Erfasste Einkommen
+          </div>
+          <div id="incomeList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- Exit App Overlay -->
     <div id="exitOverlay" class="modal hidden" style="background: var(--bg);">
       <div class="card" style="max-width: 360px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;">
@@ -603,9 +649,11 @@
     });
     heroCard.addEventListener('mouseleave', () => { heroCard.style.transform = ''; });
 
-    // --- Invoice State ---
+    // --- Invoice & Income State ---
     const STORAGE_KEY = 'rechnungen_ch_v2';
+    const INCOME_STORAGE_KEY = 'rechnungen_ch_incomes_v1';
     let invoices = [];
+    let incomes = [];
     let currentFilter = 'all';
     let photoQueue = [];
     let lastAddedId = null;
@@ -622,10 +670,18 @@
         const saved = localStorage.getItem(STORAGE_KEY);
         invoices = saved ? JSON.parse(saved) : [];
       } catch { invoices = []; }
+      try {
+        const savedInc = localStorage.getItem(INCOME_STORAGE_KEY);
+        incomes = savedInc ? JSON.parse(savedInc) : [];
+      } catch { incomes = []; }
     }
 
     function saveInvoices() {
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(invoices)); } catch {}
+    }
+
+    function saveIncomes() {
+      try { localStorage.setItem(INCOME_STORAGE_KEY, JSON.stringify(incomes)); } catch {}
     }
 
     function formatCHF(val) {
@@ -689,9 +745,14 @@
       const paidList = invoices.filter(i => i.paid);
       const totalPending = pendingList.reduce((s, i) => s + Number(i.amount), 0);
       const totalPaid = paidList.reduce((s, i) => s + Number(i.amount), 0);
+      const totalIncome = incomes.reduce((s, i) => s + Number(i.amount), 0);
+      const bankBalance = totalIncome - totalPaid;
 
+      animateCHF('bankBalance', bankBalance);
       animateCHF('totalAll', totalAll);
-      document.getElementById('countAll').textContent = `${invoices.length} ${invoices.length === 1 ? 'Rechnung' : 'Rechnungen'}`;
+      document.getElementById('countAll').textContent = invoices.length;
+      animateCHF('totalIncome', totalIncome);
+      document.getElementById('countIncome').textContent = `${incomes.length} ${incomes.length === 1 ? 'Eintrag' : 'Einträge'}`;
       animateCHF('totalPending', totalPending);
       document.getElementById('countPending').textContent = `${pendingList.length} offen`;
       animateCHF('totalPaid', totalPaid);
@@ -1114,6 +1175,66 @@
       setTimeout(() => exitOverlay.classList.remove('hidden'), 150);
     });
     document.getElementById('reopenAppBtn').addEventListener('click', () => exitOverlay.classList.add('hidden'));
+
+    // --- Income Modal Handlers ---
+    const incomeModal = document.getElementById('incomeModal');
+    function renderIncomeList() {
+      const listEl = document.getElementById('incomeList');
+      if (incomes.length === 0) {
+        listEl.innerHTML = `<div style="font-size: 12.5px; color: var(--muted); text-align: center; padding: 14px;">Noch keine Einkommen erfasst.</div>`;
+        return;
+      }
+      const sorted = [...incomes].sort((a, b) => b.date.localeCompare(a.date));
+      listEl.innerHTML = sorted.map(inc => `
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 11px; border: 1px solid var(--border); background: var(--bg);">
+          <div style="min-width: 0;">
+            <div style="font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(inc.source)}</div>
+            <div style="font-size: 11.5px; color: var(--muted);">${formatDisplayDate(inc.date)}</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+            <span class="tabular" style="font-size: 14px; font-weight: 800; color: var(--success);">+ ${formatCHF(inc.amount)}</span>
+            <button data-inc-id="${inc.id}" type="button" class="btn btn-danger del-inc-btn" style="padding: 4px 8px;" title="Entfernen">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('openIncomeBtn').addEventListener('click', () => {
+      document.getElementById('incomeDate').value = formatDateISO(0);
+      renderIncomeList();
+      incomeModal.classList.remove('hidden');
+    });
+    document.getElementById('closeIncomeBtn').addEventListener('click', () => incomeModal.classList.add('hidden'));
+    incomeModal.addEventListener('click', (e) => { if (e.target.id === 'incomeModal') incomeModal.classList.add('hidden'); });
+
+    document.getElementById('incomeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const srcEl = document.getElementById('incomeSource');
+      const dtEl = document.getElementById('incomeDate');
+      const amtEl = document.getElementById('incomeAmount');
+      const source = srcEl.value.trim();
+      const date = dtEl.value;
+      const amount = parseFloat(amtEl.value);
+      if (!source || !date || isNaN(amount) || amount <= 0) return;
+
+      incomes.push({ id: crypto.randomUUID(), source, date, amount: Math.round(amount * 100) / 100 });
+      saveIncomes();
+      render();
+      renderIncomeList();
+      srcEl.value = '';
+      amtEl.value = '';
+      dtEl.value = formatDateISO(0);
+      srcEl.focus();
+    });
+
+    document.getElementById('incomeList').addEventListener('click', (e) => {
+      const btn = e.target.closest('.del-inc-btn');
+      if (!btn) return;
+      incomes = incomes.filter(i => i.id !== btn.dataset.incId);
+      saveIncomes();
+      render();
+      renderIncomeList();
+    });
 
     document.getElementById('dueDate').value = formatDateISO(0);
     loadInvoices();
