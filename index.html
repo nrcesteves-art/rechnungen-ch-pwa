@@ -771,6 +771,42 @@
     function saveExpenses() { try { localStorage.setItem(EXPENSE_STORAGE_KEY, JSON.stringify(expenses)); } catch {} }
     function saveHistory() { try { localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(paidHistory)); } catch {} }
 
+    const UI_STORAGE_KEY = 'rechnungen_ch_ui_v1';
+    function saveUiState() {
+      try {
+        localStorage.setItem(UI_STORAGE_KEY, JSON.stringify({
+          currentFilter,
+          institution: document.getElementById('institution')?.value || '',
+          dueDate: document.getElementById('dueDate')?.value || formatDateISO(0),
+          amount: document.getElementById('amount')?.value || '',
+          scrollY: window.scrollY || 0
+        }));
+      } catch {}
+    }
+
+    function restoreUiState() {
+      try {
+        const raw = localStorage.getItem(UI_STORAGE_KEY);
+        if (!raw) {
+          document.getElementById('dueDate').value = formatDateISO(0);
+          return;
+        }
+        const ui = JSON.parse(raw);
+        if (ui.currentFilter) {
+          currentFilter = ui.currentFilter;
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === currentFilter));
+        }
+        if (ui.institution) document.getElementById('institution').value = ui.institution;
+        document.getElementById('dueDate').value = ui.dueDate || formatDateISO(0);
+        if (ui.amount) document.getElementById('amount').value = ui.amount;
+        if (typeof ui.scrollY === 'number' && ui.scrollY > 0) {
+          requestAnimationFrame(() => window.scrollTo(0, ui.scrollY));
+        }
+      } catch {
+        document.getElementById('dueDate').value = formatDateISO(0);
+      }
+    }
+
     function recordPaidInHistory(inv) {
       const existing = paidHistory.find(h => h.refId === inv.id);
       if (existing) {
@@ -1428,17 +1464,41 @@
       return { allOut, totalOut, totalIn };
     }
 
+    function isMonthReportAvailable(ym) {
+      const [y, m] = ym.split('-').map(Number);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      // Available starting from the 1st day of the following month
+      const unlockDate = new Date(y, m, 1);
+      unlockDate.setHours(0, 0, 0, 0);
+      return {
+        available: today >= unlockDate,
+        unlockLabel: `01.${String(unlockDate.getMonth() + 1).padStart(2, '0')}.${unlockDate.getFullYear()}`
+      };
+    }
+
     function updateReportPreview() {
       const ym = reportMonthEl.value;
       if (!ym) return;
       const [y, m] = ym.split('-').map(Number);
       const lastDay = new Date(y, m, 0).getDate();
       const { allOut, totalOut, totalIn } = getMonthEntries(ym);
+      const { available, unlockLabel } = isMonthReportAvailable(ym);
+      const pdfBtn = document.getElementById('generatePdfBtn');
+
+      pdfBtn.disabled = !available;
+      pdfBtn.style.opacity = available ? '1' : '0.45';
+      pdfBtn.style.cursor = available ? 'pointer' : 'not-allowed';
+      pdfBtn.textContent = available
+        ? '📄 PDF herunterladen / drucken'
+        : `🔒 Verfügbar ab ${unlockLabel}`;
+
       reportSummaryBox.innerHTML = `
         <div style="font-weight:700; margin-bottom:6px;">Zeitraum: 01.${String(m).padStart(2,'0')}.${y} – ${String(lastDay).padStart(2,'0')}.${String(m).padStart(2,'0')}.${y}</div>
         <div>Ausgaben-Einträge: <strong>${allOut.length}</strong></div>
         <div>Gesamtausgaben: <strong style="color:var(--error);">${formatCHF(totalOut)}</strong></div>
         <div>Einkommen im Monat: <strong style="color:var(--success);">${formatCHF(totalIn)}</strong></div>
+        ${!available ? `<div style="margin-top:6px; font-size:11.5px; color:var(--warning); font-weight:600;">Hinweis: Der Monatsbericht wird ab dem ${unlockLabel} freigeschaltet.</div>` : ''}
       `;
     }
 
@@ -1456,6 +1516,7 @@
     document.getElementById('generatePdfBtn').addEventListener('click', () => {
       const ym = reportMonthEl.value;
       if (!ym) return;
+      if (!isMonthReportAvailable(ym).available) return;
       const [y, m] = ym.split('-').map(Number);
       const lastDay = new Date(y, m, 0).getDate();
       const period = `01.${String(m).padStart(2, '0')}.${y} – ${String(lastDay).padStart(2, '0')}.${String(m).padStart(2, '0')}.${y}`;
@@ -1572,8 +1633,24 @@
     document.getElementById('closeStatDetailBtn').addEventListener('click', () => statDetailModal.classList.add('hidden'));
     statDetailModal.addEventListener('click', (e) => { if (e.target.id === 'statDetailModal') statDetailModal.classList.add('hidden'); });
 
-    document.getElementById('dueDate').value = formatDateISO(0);
+    // Save UI state on inputs, filter clicks, exit & pagehide
+    ['institution', 'dueDate', 'amount'].forEach(id => {
+      document.getElementById(id).addEventListener('input', saveUiState);
+    });
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', saveUiState);
+    });
+    window.addEventListener('pagehide', () => {
+      saveInvoices(); saveIncomes(); saveExpenses(); saveHistory(); saveUiState();
+    });
+
+    // Ensure Exit button saves everything before closing
+    document.getElementById('exitAppBtn').addEventListener('click', () => {
+      saveInvoices(); saveIncomes(); saveExpenses(); saveHistory(); saveUiState();
+    });
+
     loadInvoices();
+    restoreUiState();
     render();
   </script>
 </body>
