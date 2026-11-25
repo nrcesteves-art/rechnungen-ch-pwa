@@ -328,6 +328,7 @@
         <button id="themeBtn" type="button" class="btn" title="Design wechseln">🌓 Design</button>
         <button id="exportCsvBtn" type="button" class="btn">CSV exportieren</button>
         <button id="clearAllBtn" type="button" class="btn btn-muted">Tabelle leeren</button>
+        <button id="exitAppBtn" type="button" class="btn btn-danger" title="App beenden">🚪 Beenden</button>
       </div>
     </header>
 
@@ -500,6 +501,18 @@
             <button type="submit" class="btn btn-primary">Speichern</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Exit App Overlay (fallback when browser blocks window.close) -->
+    <div id="exitOverlay" class="modal hidden" style="background: var(--bg);">
+      <div class="card" style="max-width: 380px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <img src="./icon.svg" alt="Rechnungen CH" style="width: 56px; height: 56px; border-radius: 16px;" />
+        <strong style="font-size: 18px;">App beendet</strong>
+        <p class="subtitle" style="margin: 0; font-size: 13px;">
+          Alle deine Rechnungen wurden sicher gespeichert. Du kannst das Fenster jetzt schliessen.
+        </p>
+        <button id="reopenAppBtn" type="button" class="btn btn-primary" style="margin-top: 6px;">Wieder öffnen</button>
       </div>
     </div>
   </div>
@@ -1126,6 +1139,20 @@
 
     document.getElementById('closeLegalBtn').addEventListener('click', () => legalModal.classList.add('hidden'));
     legalModal.addEventListener('click', (e) => { if (e.target.id === 'legalModal') legalModal.classList.add('hidden'); });
+
+    // --- Exit App ---
+    const exitOverlay = document.getElementById('exitOverlay');
+    document.getElementById('exitAppBtn').addEventListener('click', () => {
+      saveInvoices();
+      window.close();
+      // Fallback for mobile browsers/tabs where window.close() is restricted
+      setTimeout(() => {
+        exitOverlay.classList.remove('hidden');
+      }, 150);
+    });
+    document.getElementById('reopenAppBtn').addEventListener('click', () => {
+      exitOverlay.classList.add('hidden');
+    });
 
     document.getElementById('dueDate').value = formatDateISO(0);
     loadInvoices();
