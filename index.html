@@ -190,9 +190,13 @@
     }
     .hero-stat {
       padding: 10px 10px; border-radius: 14px;
-      background: rgba(255, 255, 255, 0.11); border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.11); border: 1px solid rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(10px); min-width: 0;
+      text-align: left; color: #ffffff; cursor: pointer;
+      transition: background .15s, transform .14s ease, border-color .15s;
     }
+    .hero-stat:hover { background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.35); transform: translateY(-2px); }
+    .hero-stat:active { transform: translateY(0); }
     .hero-stat-label { font-size: 10.5px; font-weight: 600; opacity: 0.82; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
     .hero-stat-val { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 3px; display: inline-block; transition: transform .2s; white-space: nowrap; }
     .hero-stat-val.pop { transform: scale(1.06); }
@@ -392,21 +396,21 @@
       </div>
 
       <div class="hero-stats">
-        <div class="hero-stat">
+        <button id="statIncomeBtn" type="button" class="hero-stat" title="Einkommen anzeigen">
           <div class="hero-stat-label"><span class="dot" style="background: #38bdf8; margin: 0;"></span>Einkommen</div>
           <div id="totalIncome" class="hero-stat-val">CHF 0.00</div>
           <div id="countIncome" class="hero-stat-sub">0 Einträge</div>
-        </div>
-        <div class="hero-stat">
+        </button>
+        <button id="statPendingBtn" type="button" class="hero-stat" title="Offene Rechnungen anzeigen">
           <div class="hero-stat-label"><span class="dot" style="background: #fbbf24; margin: 0;"></span>Offen</div>
           <div id="totalPending" class="hero-stat-val">CHF 0.00</div>
           <div id="countPending" class="hero-stat-sub">0 offen</div>
-        </div>
-        <div class="hero-stat">
+        </button>
+        <button id="statSpentBtn" type="button" class="hero-stat" title="Ausgaben anzeigen">
           <div class="hero-stat-label"><span class="dot" style="background: #34d399; margin: 0;"></span>Ausgegeben</div>
           <div id="totalSpent" class="hero-stat-val">CHF 0.00</div>
           <div id="countSpent" class="hero-stat-sub">Rechn. + Käufe</div>
-        </div>
+        </button>
       </div>
     </section>
 
@@ -656,6 +660,18 @@
             📄 PDF herunterladen / drucken
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Stat Detail Popup (Einkommen / Offen / Ausgegeben) -->
+    <div id="statDetailModal" class="modal hidden">
+      <div class="card" style="max-width: 460px; width: 100%; max-height: 84vh; overflow-y: auto; text-align: left;">
+        <div class="topbar" style="margin-bottom: 12px;">
+          <strong id="statDetailTitle" style="font-size: 16px;">Details</strong>
+          <button id="closeStatDetailBtn" type="button" class="icon-btn" style="width: 32px; height: 32px; font-size: 14px;" title="Schliessen">✕</button>
+        </div>
+        <div id="statDetailList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        <div id="statDetailTotal" style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 14px; font-weight: 800;"></div>
       </div>
     </div>
 
@@ -1490,6 +1506,71 @@
       </body></html>`);
       win.document.close();
     });
+
+    // --- Stat Detail Popup (Einkommen / Offen / Ausgegeben) ---
+    const statDetailModal = document.getElementById('statDetailModal');
+    const statDetailTitle = document.getElementById('statDetailTitle');
+    const statDetailList = document.getElementById('statDetailList');
+    const statDetailTotal = document.getElementById('statDetailTotal');
+
+    function openStatDetail(type) {
+      let items = [];
+      let total = 0;
+      let color = 'var(--fg)';
+      let prefix = '';
+
+      if (type === 'income') {
+        statDetailTitle.textContent = '💰 Einkommen — Beträge';
+        color = 'var(--success)';
+        prefix = '+ ';
+        items = [...incomes].sort((a, b) => b.date.localeCompare(a.date)).map(i => ({
+          title: i.source,
+          sub: formatDisplayDate(i.date),
+          amount: Number(i.amount)
+        }));
+      } else if (type === 'pending') {
+        statDetailTitle.textContent = '⏳ Offene Rechnungen — Beträge';
+        color = 'var(--warning)';
+        items = invoices.filter(i => !i.paid).sort((a, b) => a.dueDate.localeCompare(b.dueDate)).map(i => ({
+          title: i.institution,
+          sub: `Fällig: ${formatDisplayDate(i.dueDate)} · ${getDueStatus(i).label}`,
+          amount: Number(i.amount)
+        }));
+      } else {
+        statDetailTitle.textContent = '💸 Ausgegeben — Beträge';
+        color = 'var(--error)';
+        prefix = '- ';
+        items = [
+          ...paidHistory.map(h => ({ title: h.description, sub: `Rechnung · ${formatDisplayDate(h.date)}`, date: h.date, amount: Number(h.amount) })),
+          ...expenses.map(e => ({ title: e.description, sub: `${e.category} · ${formatDisplayDate(e.date)}`, date: e.date, amount: Number(e.amount) }))
+        ].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      }
+
+      total = items.reduce((s, x) => s + x.amount, 0);
+
+      if (items.length === 0) {
+        statDetailList.innerHTML = `<div style="font-size: 13px; color: var(--muted); text-align: center; padding: 18px;">Keine Einträge vorhanden.</div>`;
+      } else {
+        statDetailList.innerHTML = items.map(it => `
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 11px; border: 1px solid var(--border); background: var(--bg);">
+            <div style="min-width: 0;">
+              <div style="font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(it.title)}</div>
+              <div style="font-size: 11.5px; color: var(--muted);">${escapeHtml(it.sub)}</div>
+            </div>
+            <span class="tabular" style="font-size: 14px; font-weight: 800; color: ${color}; white-space: nowrap;">${prefix}${formatCHF(it.amount)}</span>
+          </div>
+        `).join('');
+      }
+
+      statDetailTotal.innerHTML = `<span>Total (${items.length})</span><span class="tabular" style="color: ${color};">${prefix}${formatCHF(total)}</span>`;
+      statDetailModal.classList.remove('hidden');
+    }
+
+    document.getElementById('statIncomeBtn').addEventListener('click', () => openStatDetail('income'));
+    document.getElementById('statPendingBtn').addEventListener('click', () => openStatDetail('pending'));
+    document.getElementById('statSpentBtn').addEventListener('click', () => openStatDetail('spent'));
+    document.getElementById('closeStatDetailBtn').addEventListener('click', () => statDetailModal.classList.add('hidden'));
+    statDetailModal.addEventListener('click', (e) => { if (e.target.id === 'statDetailModal') statDetailModal.classList.add('hidden'); });
 
     document.getElementById('dueDate').value = formatDateISO(0);
     loadInvoices();
