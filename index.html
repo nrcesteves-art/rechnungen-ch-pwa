@@ -362,6 +362,7 @@
 
         <div id="menuDropdown" class="menu-dropdown hidden">
           <button id="installBtn" type="button" class="menu-item menu-item-primary hidden">📲 App installieren</button>
+          <button id="openReportBtn" type="button" class="menu-item">📊 Monatsbericht (PDF)</button>
           <button id="exportCsvBtn" type="button" class="menu-item">📤 CSV exportieren</button>
           <button id="clearAllBtn" type="button" class="menu-item" style="color: var(--error);">🧹 Tabelle leeren</button>
         </div>
@@ -374,9 +375,14 @@
         <div>
           <div class="hero-label">Kontostand (Verfügbar)</div>
           <div id="bankBalance" class="hero-amount">CHF 0.00</div>
-          <div id="totalAllSub" style="font-size: 11.5px; opacity: 0.75; margin-top: 2px;">Rechnungen total: <span id="totalAll" class="tabular" style="font-weight: 700;">CHF 0.00</span> (<span id="countAll">0</span>)</div>
+          <div id="totalAllSub" style="font-size: 11.5px; opacity: 0.78; margin-top: 2px;">
+            Rechnungen: <span id="totalAll" class="tabular" style="font-weight: 700;">CHF 0.00</span> (<span id="countAll">0</span>)
+          </div>
         </div>
-        <button id="openIncomeBtn" type="button" class="hero-income-btn">+ Einkommen</button>
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
+          <button id="openIncomeBtn" type="button" class="hero-income-btn">+ Einkommen</button>
+          <button id="openExpenseBtn" type="button" class="hero-income-btn" style="background: rgba(15, 23, 42, 0.35);">+ Ausgabe</button>
+        </div>
       </div>
 
       <div class="progress-wrap">
@@ -397,9 +403,9 @@
           <div id="countPending" class="hero-stat-sub">0 offen</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-label"><span class="dot" style="background: #34d399; margin: 0;"></span>Bezahlt</div>
-          <div id="totalPaid" class="hero-stat-val">CHF 0.00</div>
-          <div id="countPaid" class="hero-stat-sub">0 bezahlt</div>
+          <div class="hero-stat-label"><span class="dot" style="background: #34d399; margin: 0;"></span>Ausgegeben</div>
+          <div id="totalSpent" class="hero-stat-val">CHF 0.00</div>
+          <div id="countSpent" class="hero-stat-sub">Rechn. + Käufe</div>
         </div>
       </div>
     </section>
@@ -585,6 +591,74 @@
       </div>
     </div>
 
+    <!-- Other Expenses Modal (Sonstige Ausgaben) -->
+    <div id="expenseModal" class="modal hidden">
+      <div class="card" style="max-width: 460px; width: 100%; max-height: 86vh; overflow-y: auto; text-align: left;">
+        <div class="topbar" style="margin-bottom: 12px;">
+          <strong style="font-size: 16px;">🛒 Sonstige Ausgaben</strong>
+          <button id="closeExpenseBtn" type="button" class="btn" style="padding: 5px 10px; font-size: 12px;">Schliessen ✕</button>
+        </div>
+        <form id="expenseForm" style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
+          <div>
+            <label for="expenseCategory" class="field-label">Kategorie</label>
+            <select id="expenseCategory">
+              <option value="Supermarkt">🛒 Supermarkt</option>
+              <option value="Kleidung">👕 Kleidung</option>
+              <option value="Elektronik">💻 Elektronik</option>
+              <option value="Restaurant">🍽️ Restaurant / Café</option>
+              <option value="Transport">🚆 Transport / Tanken</option>
+              <option value="Freizeit">🎬 Freizeit</option>
+              <option value="Sonstiges">📦 Sonstiges</option>
+            </select>
+          </div>
+          <div>
+            <label for="expenseDesc" class="field-label">Beschreibung</label>
+            <input id="expenseDesc" type="text" required placeholder="z. B. Migros, Coop, Digitec, Zara..." />
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label for="expenseDate" class="field-label">Datum</label>
+              <input id="expenseDate" type="date" required />
+            </div>
+            <div>
+              <label for="expenseAmount" class="field-label">Betrag (CHF)</label>
+              <input id="expenseAmount" type="number" step="any" min="0.01" inputmode="decimal" required placeholder="0.00" class="tabular" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px;">+ Ausgabe hinzufügen</button>
+        </form>
+        <div style="margin-top: 12px;">
+          <div style="font-size: 11.5px; font-weight: 700; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">
+            Erfasste Ausgaben
+          </div>
+          <div id="expenseList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly PDF Report Modal -->
+    <div id="reportModal" class="modal hidden">
+      <div class="card" style="max-width: 440px; width: 100%; text-align: left;">
+        <div class="topbar" style="margin-bottom: 12px;">
+          <strong style="font-size: 16px;">📊 Monatsbericht (PDF)</strong>
+          <button id="closeReportBtn" type="button" class="btn" style="padding: 5px 10px; font-size: 12px;">Schliessen ✕</button>
+        </div>
+        <p style="margin: 0 0 12px; font-size: 12.5px; color: var(--muted);">
+          Alle bezahlten Rechnungen (auch bereits gelöschte) und sonstigen Ausgaben vom 1. bis letzten Tag des Monats werden automatisch gespeichert.
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div>
+            <label for="reportMonth" class="field-label">Monat auswählen</label>
+            <input id="reportMonth" type="month" required />
+          </div>
+          <div id="reportSummaryBox" style="padding: 12px; border-radius: 12px; background: var(--bg); border: 1px solid var(--border); font-size: 13px;"></div>
+          <button id="generatePdfBtn" type="button" class="btn btn-primary" style="width: 100%; padding: 11px; font-size: 14px;">
+            📄 PDF herunterladen / drucken
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Exit App Overlay -->
     <div id="exitOverlay" class="modal hidden" style="background: var(--bg);">
       <div class="card" style="max-width: 360px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px;">
@@ -649,11 +723,15 @@
     });
     heroCard.addEventListener('mouseleave', () => { heroCard.style.transform = ''; });
 
-    // --- Invoice & Income State ---
+    // --- Invoice, Income, Expense & Persistent History State ---
     const STORAGE_KEY = 'rechnungen_ch_v2';
     const INCOME_STORAGE_KEY = 'rechnungen_ch_incomes_v1';
+    const EXPENSE_STORAGE_KEY = 'rechnungen_ch_expenses_v1';
+    const HISTORY_STORAGE_KEY = 'rechnungen_ch_history_v1';
     let invoices = [];
     let incomes = [];
+    let expenses = [];
+    let paidHistory = [];
     let currentFilter = 'all';
     let photoQueue = [];
     let lastAddedId = null;
@@ -666,22 +744,38 @@
     }
 
     function loadInvoices() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        invoices = saved ? JSON.parse(saved) : [];
-      } catch { invoices = []; }
-      try {
-        const savedInc = localStorage.getItem(INCOME_STORAGE_KEY);
-        incomes = savedInc ? JSON.parse(savedInc) : [];
-      } catch { incomes = []; }
+      try { const s = localStorage.getItem(STORAGE_KEY); invoices = s ? JSON.parse(s) : []; } catch { invoices = []; }
+      try { const s = localStorage.getItem(INCOME_STORAGE_KEY); incomes = s ? JSON.parse(s) : []; } catch { incomes = []; }
+      try { const s = localStorage.getItem(EXPENSE_STORAGE_KEY); expenses = s ? JSON.parse(s) : []; } catch { expenses = []; }
+      try { const s = localStorage.getItem(HISTORY_STORAGE_KEY); paidHistory = s ? JSON.parse(s) : []; } catch { paidHistory = []; }
     }
 
-    function saveInvoices() {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(invoices)); } catch {}
+    function saveInvoices() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(invoices)); } catch {} }
+    function saveIncomes() { try { localStorage.setItem(INCOME_STORAGE_KEY, JSON.stringify(incomes)); } catch {} }
+    function saveExpenses() { try { localStorage.setItem(EXPENSE_STORAGE_KEY, JSON.stringify(expenses)); } catch {} }
+    function saveHistory() { try { localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(paidHistory)); } catch {} }
+
+    function recordPaidInHistory(inv) {
+      const existing = paidHistory.find(h => h.refId === inv.id);
+      if (existing) {
+        existing.description = inv.institution;
+        existing.amount = Number(inv.amount);
+      } else {
+        paidHistory.push({
+          id: crypto.randomUUID(),
+          refId: inv.id,
+          date: formatDateISO(0),
+          category: 'Rechnung',
+          description: inv.institution,
+          amount: Number(inv.amount)
+        });
+      }
+      saveHistory();
     }
 
-    function saveIncomes() {
-      try { localStorage.setItem(INCOME_STORAGE_KEY, JSON.stringify(incomes)); } catch {}
+    function removePaidFromHistory(invId) {
+      paidHistory = paidHistory.filter(h => h.refId !== invId);
+      saveHistory();
     }
 
     function formatCHF(val) {
@@ -744,9 +838,12 @@
       const pendingList = invoices.filter(i => !i.paid);
       const paidList = invoices.filter(i => i.paid);
       const totalPending = pendingList.reduce((s, i) => s + Number(i.amount), 0);
-      const totalPaid = paidList.reduce((s, i) => s + Number(i.amount), 0);
+      const totalPaidActive = paidList.reduce((s, i) => s + Number(i.amount), 0);
+      const totalHistoryPaid = paidHistory.reduce((s, h) => s + Number(h.amount), 0);
+      const totalExpenses = expenses.reduce((s, e) => s + Number(e.amount), 0);
+      const totalSpent = totalHistoryPaid + totalExpenses;
       const totalIncome = incomes.reduce((s, i) => s + Number(i.amount), 0);
-      const bankBalance = totalIncome - totalPaid;
+      const bankBalance = totalIncome - totalSpent;
 
       animateCHF('bankBalance', bankBalance);
       animateCHF('totalAll', totalAll);
@@ -755,10 +852,10 @@
       document.getElementById('countIncome').textContent = `${incomes.length} ${incomes.length === 1 ? 'Eintrag' : 'Einträge'}`;
       animateCHF('totalPending', totalPending);
       document.getElementById('countPending').textContent = `${pendingList.length} offen`;
-      animateCHF('totalPaid', totalPaid);
-      document.getElementById('countPaid').textContent = `${paidList.length} bezahlt`;
+      animateCHF('totalSpent', totalSpent);
+      document.getElementById('countSpent').textContent = `${paidHistory.length + expenses.length} total`;
 
-      const pct = totalAll > 0 ? Math.round((totalPaid / totalAll) * 100) : 0;
+      const pct = totalAll > 0 ? Math.round((totalPaidActive / totalAll) * 100) : 0;
       document.getElementById('paidProgress').style.width = `${pct}%`;
 
       const filtered = invoices.filter(inv => {
@@ -832,7 +929,13 @@
     document.getElementById('invoiceTableBody').addEventListener('change', (e) => {
       if (!e.target.classList.contains('paid-select')) return;
       const inv = invoices.find(i => i.id === e.target.dataset.id);
-      if (inv) { inv.paid = e.target.value === 'true'; saveInvoices(); render(); }
+      if (inv) {
+        inv.paid = e.target.value === 'true';
+        if (inv.paid) recordPaidInHistory(inv);
+        else removePaidFromHistory(inv.id);
+        saveInvoices();
+        render();
+      }
     });
 
     const editModal = document.getElementById('editModal');
@@ -1234,6 +1337,158 @@
       saveIncomes();
       render();
       renderIncomeList();
+    });
+
+    // --- Other Expenses Modal Handlers ---
+    const expenseModal = document.getElementById('expenseModal');
+    function renderExpenseList() {
+      const listEl = document.getElementById('expenseList');
+      if (expenses.length === 0) {
+        listEl.innerHTML = `<div style="font-size: 12.5px; color: var(--muted); text-align: center; padding: 14px;">Noch keine sonstigen Ausgaben erfasst.</div>`;
+        return;
+      }
+      const sorted = [...expenses].sort((a, b) => b.date.localeCompare(a.date));
+      listEl.innerHTML = sorted.map(exp => `
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 11px; border: 1px solid var(--border); background: var(--bg);">
+          <div style="min-width: 0;">
+            <div style="font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(exp.description)}</div>
+            <div style="font-size: 11.5px; color: var(--muted);">${escapeHtml(exp.category)} · ${formatDisplayDate(exp.date)}</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+            <span class="tabular" style="font-size: 14px; font-weight: 800; color: var(--error);">- ${formatCHF(exp.amount)}</span>
+            <button data-exp-id="${exp.id}" type="button" class="btn btn-danger del-exp-btn" style="padding: 4px 8px;" title="Entfernen">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('openExpenseBtn').addEventListener('click', () => {
+      document.getElementById('expenseDate').value = formatDateISO(0);
+      renderExpenseList();
+      expenseModal.classList.remove('hidden');
+    });
+    document.getElementById('closeExpenseBtn').addEventListener('click', () => expenseModal.classList.add('hidden'));
+    expenseModal.addEventListener('click', (e) => { if (e.target.id === 'expenseModal') expenseModal.classList.add('hidden'); });
+
+    document.getElementById('expenseForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const catEl = document.getElementById('expenseCategory');
+      const descEl = document.getElementById('expenseDesc');
+      const dtEl = document.getElementById('expenseDate');
+      const amtEl = document.getElementById('expenseAmount');
+      const description = descEl.value.trim();
+      const date = dtEl.value;
+      const amount = parseFloat(amtEl.value);
+      if (!description || !date || isNaN(amount) || amount <= 0) return;
+
+      expenses.push({ id: crypto.randomUUID(), category: catEl.value, description, date, amount: Math.round(amount * 100) / 100 });
+      saveExpenses();
+      render();
+      renderExpenseList();
+      descEl.value = ''; amtEl.value = ''; dtEl.value = formatDateISO(0); descEl.focus();
+    });
+
+    document.getElementById('expenseList').addEventListener('click', (e) => {
+      const btn = e.target.closest('.del-exp-btn');
+      if (!btn) return;
+      expenses = expenses.filter(x => x.id !== btn.dataset.expId);
+      saveExpenses(); render(); renderExpenseList();
+    });
+
+    // --- Monthly PDF Report (Day 1 to last day of month) ---
+    const reportModal = document.getElementById('reportModal');
+    const reportMonthEl = document.getElementById('reportMonth');
+    const reportSummaryBox = document.getElementById('reportSummaryBox');
+
+    function getMonthEntries(ym) {
+      const allOut = [
+        ...paidHistory.map(h => ({ date: h.date, category: h.category || 'Rechnung', description: h.description, amount: Number(h.amount) })),
+        ...expenses.map(e => ({ date: e.date, category: e.category || 'Sonstiges', description: e.description, amount: Number(e.amount) }))
+      ].filter(item => item.date && item.date.startsWith(ym)).sort((a, b) => a.date.localeCompare(b.date));
+
+      const monthIncomes = incomes.filter(i => i.date && i.date.startsWith(ym));
+      const totalOut = allOut.reduce((s, x) => s + x.amount, 0);
+      const totalIn = monthIncomes.reduce((s, x) => s + Number(x.amount), 0);
+      return { allOut, totalOut, totalIn };
+    }
+
+    function updateReportPreview() {
+      const ym = reportMonthEl.value;
+      if (!ym) return;
+      const [y, m] = ym.split('-').map(Number);
+      const lastDay = new Date(y, m, 0).getDate();
+      const { allOut, totalOut, totalIn } = getMonthEntries(ym);
+      reportSummaryBox.innerHTML = `
+        <div style="font-weight:700; margin-bottom:6px;">Zeitraum: 01.${String(m).padStart(2,'0')}.${y} – ${String(lastDay).padStart(2,'0')}.${String(m).padStart(2,'0')}.${y}</div>
+        <div>Ausgaben-Einträge: <strong>${allOut.length}</strong></div>
+        <div>Gesamtausgaben: <strong style="color:var(--error);">${formatCHF(totalOut)}</strong></div>
+        <div>Einkommen im Monat: <strong style="color:var(--success);">${formatCHF(totalIn)}</strong></div>
+      `;
+    }
+
+    document.getElementById('openReportBtn').addEventListener('click', () => {
+      menuDropdown.classList.add('hidden');
+      const now = new Date();
+      reportMonthEl.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      updateReportPreview();
+      reportModal.classList.remove('hidden');
+    });
+    reportMonthEl.addEventListener('change', updateReportPreview);
+    document.getElementById('closeReportBtn').addEventListener('click', () => reportModal.classList.add('hidden'));
+    reportModal.addEventListener('click', (e) => { if (e.target.id === 'reportModal') reportModal.classList.add('hidden'); });
+
+    document.getElementById('generatePdfBtn').addEventListener('click', () => {
+      const ym = reportMonthEl.value;
+      if (!ym) return;
+      const [y, m] = ym.split('-').map(Number);
+      const lastDay = new Date(y, m, 0).getDate();
+      const period = `01.${String(m).padStart(2, '0')}.${y} – ${String(lastDay).padStart(2, '0')}.${String(m).padStart(2, '0')}.${y}`;
+      const { allOut, totalOut, totalIn } = getMonthEntries(ym);
+
+      const rowsHtml = allOut.length === 0
+        ? `<tr><td colspan="4" style="text-align:center; padding:18px; color:#64748b;">Keine Ausgaben in diesem Monat erfasst.</td></tr>`
+        : allOut.map(r => `
+            <tr>
+              <td>${formatDisplayDate(r.date)}</td>
+              <td>${escapeHtml(r.category)}</td>
+              <td>${escapeHtml(r.description)}</td>
+              <td style="text-align:right; font-variant-numeric:tabular-nums; font-weight:600;">${formatCHF(r.amount)}</td>
+            </tr>
+          `).join('');
+
+      const win = window.open('', '_blank');
+      if (!win) { alert('Bitte Pop-ups erlauben, um den PDF-Bericht zu erstellen.'); return; }
+      win.document.write(`<!DOCTYPE html><html lang="de-CH"><head><meta charset="UTF-8"><title>Monatsbericht ${ym} — Rechnungen CH</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #0f172a; margin: 32px; }
+          h1 { margin: 0 0 4px; font-size: 22px; color: #be123c; }
+          .sub { color: #64748b; font-size: 13px; margin-bottom: 20px; }
+          .kpis { display: flex; gap: 14px; margin-bottom: 20px; }
+          .kpi { flex: 1; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; }
+          .kpi-l { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; }
+          .kpi-v { font-size: 18px; font-weight: 800; margin-top: 4px; }
+          table { width: 100%; border-collapse: collapse; font-size: 13px; }
+          th, td { padding: 9px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+          th { background: #f8fafc; font-size: 11px; text-transform: uppercase; color: #475569; }
+          tfoot td { font-weight: 800; background: #f1f5f9; border-top: 2px solid #cbd5e1; }
+          @media print { body { margin: 14mm; } }
+        </style></head><body>
+        <h1>Rechnungen CH — Monatsbericht</h1>
+        <div class="sub">Zeitraum: ${period}</div>
+        <div class="kpis">
+          <div class="kpi"><div class="kpi-l">Einkommen</div><div class="kpi-v" style="color:#059669;">${formatCHF(totalIn)}</div></div>
+          <div class="kpi"><div class="kpi-l">Gesamtausgaben</div><div class="kpi-v" style="color:#dc2626;">${formatCHF(totalOut)}</div></div>
+          <div class="kpi"><div class="kpi-l">Bilanz (Monat)</div><div class="kpi-v">${formatCHF(totalIn - totalOut)}</div></div>
+        </div>
+        <table>
+          <thead><tr><th>Datum</th><th>Kategorie</th><th>Beschreibung</th><th style="text-align:right;">Betrag (CHF)</th></tr></thead>
+          <tbody>${rowsHtml}</tbody>
+          <tfoot><tr><td colspan="3">Gesamtsumme Ausgaben (${allOut.length} Einträge)</td><td style="text-align:right;">${formatCHF(totalOut)}</td></tr></tfoot>
+        </table>
+        <p style="margin-top:24px; font-size:11px; color:#94a3b8; text-align:center;">Erstellt mit Rechnungen CH · © 2026 Alle Rechte vorbehalten.</p>
+        <script>window.onload = () => { window.print(); };<\/script>
+      </body></html>`);
+      win.document.close();
     });
 
     document.getElementById('dueDate').value = formatDateISO(0);
